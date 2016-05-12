@@ -131,25 +131,17 @@ $(document).ready(function () {
 </div>
 <div id="script" class="section level2">
 <h2>Script</h2>
-<pre><code>## [1] &quot;/home/olivier/Documents/Work/ssi_work/[SURVEY] Software - 2015/analysis/RmD&quot;</code></pre>
+<pre><code>## [1] &quot;/home/olivier/git/ssi/software-survey-2014/analysis/RmD&quot;</code></pre>
 <p>Read anonymised data into data frame</p>
 <pre class="r"><code>    # Want to load the data as factor because it makes the manipulation easier.
     df &lt;- read.csv(&quot;../data/mergedDf.csv&quot;)</code></pre>
-<p>Renames the titles of the Question to something easier to use in the code. Also help to have easier name of references.</p>
-<pre class="r"><code>#names(data) &lt;- c('I.Timestamp', 'Q.1.Institution', 'Q.2.Role', 'Q.3.Discipline', 'Q.4.Funds', 
- #                   'Q.5.Seniority', 'Q.6.Use_software', 'Q.7.Importance_software',
-    #                'Q.8.Developing_software', 'Q.9.Training', 'Q.10.Cost_software',
-  #                  'Q.11.Main_software', 'E.1.Job_title', 'E.2.Gender', 'E.3.Contract',
-   #                 'E.4.OS', 'I.Id')</code></pre>
-<pre class="r"><code>    #New column for Extra Question 1
-    #df$E.1.Job_cleaned&lt;-NA</code></pre>
 <p>Remove rows that relate to information that is from universities that were not part of the study (or where there is insufficient evidence to identify the university)</p>
 </div>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
 <p>Correcting misspellings first.</p>
 <pre class="r"><code>    #A list is set up with key value pairs relating to the misspelled word and the correct spelling, then a for loop is used to copy the correct spelling over the incorrect one. Where there is more than one misspelling of the same word, we use the OR separator &quot;|&quot; to seperate misspellings
-
+    df$Q.1.Institution &lt;- as.factor(df$Q.1.Institution)
     spellinglist&lt;-list(&quot;Birmningham&quot; = &quot;University of Birmingham&quot;,
                        &quot;Edinburgj&quot; = &quot;University of Edinburgh&quot;,
                        &quot;Glagow&quot; = &quot;University of Glasgow&quot;,
@@ -171,11 +163,11 @@ $(document).ready(function () {
                      &quot;Psychology, Health and Society&quot; = &quot;University of Liverpool&quot;,
                      &quot;London Centre for Nanotechnology&quot; = &quot;UCL&quot;)
 
+    # Transform in type charactere to use the grep function
+    df$Q.1.Institution &lt;- as.character(df$Q.1.Institution)
     for (currentuni in names(schoollist)) {
-        df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]&lt;-schoollist[[currentuni]]
+        df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)] &lt;- schoollist[[currentuni]]
     }</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentuni, df$Q.1.Institution,
-## ignore.case = TRUE), : invalid factor level, NA generated</code></pre>
 <p>People used different ways of referring to the same university (i.e. “University of Nottingham” or “Nottingham University”). In the next step, we uniformise these names.</p>
 <pre class="r"><code>    #See above for description of how the list and for loop works
 
@@ -196,11 +188,10 @@ $(document).ready(function () {
                   &quot;University College|UCL&quot; = &quot;UCL&quot;)
 
     #This takes in the key value pairs from the &quot;unilist&quot; defined above, greps for the key in question 1 and replaces with the corresponding value from the unilist
+    
     for (currentuni in names(unilist)) {
         df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]&lt;-unilist[[currentuni]]
     }</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentuni, df$Q.1.Institution,
-## ignore.case = TRUE), : invalid factor level, NA generated</code></pre>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
@@ -253,7 +244,7 @@ $(document).ready(function () {
     }
 
     funders_cat_exceptions &lt;- list('Industry' = c('AXA','Commercial Funders','Dyson','Employer', 'Takeda cambridge ltd','industry', 'CSC',
-                                                  'Veterinary pharmaceutical companies and central university funds'), 
+                                                  'Veterinary pharmaceutical companies and central university funds'),
                                    'Other charity or fundation' = c('British Academy','Cancer Research UK','Fondation Leducq',
                                                                     'Grantham Institute','Mellon Foundation','ms society',
                                                                     'Nuffield Foundation','RAEng - Royal Academy of Engineering',
@@ -312,9 +303,11 @@ $(document).ready(function () {
 <div id="extra-question-1" class="section level2">
 <h2>Extra Question 1</h2>
 <p>First of all, create a new column to clean the df</p>
-<pre class="r"><code>    df$E.1.Job.Title.clean &lt;- df$E.1.Job.Title</code></pre>
+<pre class="r"><code>    df$E.1.Job.Title.clean &lt;- df$E.1.Job.Title
+    # To apply grep
+    df$E.1.Job.Title.clean &lt;- as.character(df$E.1.Job.Title.clean)</code></pre>
 <p>Correct a spelling mistake</p>
-<pre class="r"><code>    df$E.1.Job.Title[df$E.1.Job.Title==&quot;Ressearch Associate&quot;]&lt;-&quot;Research Associate&quot;</code></pre>
+<pre class="r"><code>    df$E.1.Job.Title[df$E.1.Job.Title == &quot;Ressearch Associate&quot;] &lt;- &quot;Research Associate&quot;</code></pre>
 <p>To aid understanding, categorise the varied, yet similar, job titles into a new column.</p>
 <pre class="r"><code>    #See above for description of how the list and for loop works
     jobname&lt;-list(&quot;administrator&quot; = &quot;Administrator&quot;,
@@ -336,44 +329,25 @@ $(document).ready(function () {
 
     #This takes in the key value pairs from the list defined above, greps for the key in question 4 and adds the value from the list to the Q4 cleaned column
     for (currentjob in names(jobname)) {
-    df$E.1.Job.Title.clean[grep(currentjob,df$E.1.Job.Title, ignore.case=TRUE)]&lt;-jobname[[currentjob]]
+    df$E.1.Job.Title.clean[grep(currentjob,df$E.1.Job.Title, ignore.case=TRUE)] &lt;- jobname[[currentjob]]
     }</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated
-
-## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated
-
-## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated
-
-## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated
-
-## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated
-
-## Warning in `[&lt;-.factor`(`*tmp*`, grep(currentjob, df$E.1.Job.Title,
-## ignore.case = TRUE), : invalid factor level, NA generated</code></pre>
 <p>There is one “Fellow” in the job titles. There’s insufficient df to understand whether this is a postdoctoral Fellow or another type of Fellow. We can’t just grep for “Fellow” because there are many different types of Fellow in the df, so we perform a direct match on this exception instead</p>
-<pre class="r"><code>    df$E.1.Job.Title.clean[df$E.1.Job_title==&quot;Fellow&quot;]&lt;-&quot;Insufficient data provided&quot;</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, df$E.1.Job_title == &quot;Fellow&quot;, value =
-## structure(c(1L, : invalid factor level, NA generated</code></pre>
+<pre class="r"><code>    df$E.1.Job.Title.clean[df$E.1.Job_title == &quot;Fellow&quot;] &lt;- &quot;Insufficient data provided&quot;</code></pre>
 </div>
 <div id="extra-question-2" class="section level2">
 <h2>Extra Question 2</h2>
 <p>Recoding Prefer not to say as NA</p>
 <pre class="r"><code>    df$E.2.Gender.clean &lt;- df$E.2.Gender
-    df$E.2.Gender.clean[df$E.2.Gender=='Prefer not to say'] &lt;- NA</code></pre>
+    df$E.2.Gender.clean[df$E.2.Gender == 'Prefer not to say'] &lt;- NA</code></pre>
 </div>
 <div id="extra-question-3" class="section level2">
 <h2>Extra Question 3</h2>
 <pre class="r"><code>    #Recode One answer as Linux
     df$E.4.OS.clean &lt;- df$E.4.OS
-    df$E.4.OS.clean[df$E.4.OS.clean =='Any Unix based'] &lt;- 'Linux'
+    df$E.4.OS.clean[df$E.4.OS.clean == 'Any Unix based'] &lt;- 'Linux'
 
     #Recode one answer as no preference
-    df$E.4.OS.clean[df$E.4.OS.clean ==&quot;I prefer Windows and Unix&quot;] &lt;- NA
+    df$E.4.OS.clean[df$E.4.OS.clean == &quot;I prefer Windows and Unix&quot;] &lt;- NA
     df$E.4.OS.clean[df$E.4.OS.clean == &quot;Don't have a preference&quot;] &lt;- NA</code></pre>
 </div>
 <div id="write-cleaned-df" class="section level2">

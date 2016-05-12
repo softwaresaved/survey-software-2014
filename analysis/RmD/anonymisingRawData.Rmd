@@ -15,12 +15,12 @@ This script anonymises the raw data collected from participants. First, each res
 Script
 ---------------
 
-Set the directory to the 
+Set the working directory 
+
 ```{r echo=FALSE}
-# Setting up the directory
-(WD <- getwd())
-if (!is.null(WD)) setwd(WD)
-rm(WD)
+    (WD <- getwd())
+    if (!is.null(WD)) setwd(WD)
+    rm(WD)
 ```
 
 Read all data into dataframes
@@ -30,21 +30,12 @@ Read all data into dataframes
 	dataPetition <- read.csv("../data/rawPetitionData.csv")
 	dataPhd <- read.csv("../data/rawPhdData.csv")
 ```
-```{r}
 
-```
 
-Adding a new column for Respondent_ID and assign a random number for each respondent. The replace=FALSE is to avoid that the respondents will get the same numbers. Then transform that int() into a factor.
+Remove columns that include identifying data (i.e. columns 18 and 19)
 
 ```{r}
-	# data_with_personal_data <- data_raw
-	#data_with_personal_data$Respondent_ID <- seq(from=1, to=nrow(data_raw))
-	#data_with_personal_data$Respondent_ID <- sample(1:nrow(data_raw), replace=FALSE)
-	#data_with_personal_data$Respondent_ID <- as.factor(data_with_personal_data$Respondent_ID)
-	# Quick check to be sure that there is 419 unique ID generated 
-	#length(unique(data_with_personal_data$Respondent_ID))
 
-	#Remove columns that include identifying data (i.e. columns 18 and 19)
 	personalInformation  <-  c("Do.you.have.any.final.comments.about.this.survey.or.the.use.of.software.in.research.","If.you.would.like.updates.on.the.progress.of.this.research..please.provide.your.email.address")
 	dfSurveyAnon  <- dataSurvey[,!(names(dataSurvey) %in% personalInformation)]
 	dfPhdAnon  <- dataPhd[,!(names(dataPhd) %in% personalInformation)]
@@ -85,6 +76,19 @@ Adding a column on each dataset with the origin of the data
 	dfPetitionAnon$dataOrigin <- 'petition'
 ```
 
+Removing two column in the dfPetitionAnon
+
+```{r}
+    drops <- c("X","X.1")
+    dfPetitionAnon <- dfPetitionAnon[ , !(names(dfPetitionAnon) %in% drops)]
+```    
+
+Rename the question about countri in the Petition survey
+
+```{r}
+    names(dfPetitionAnon)[names(dfPetitionAnon) == "Question.1..In.which.country.do.you.live."] <- "E.5.Country.Origin"
+```
+
 Merging all datasets in one big file to save later
 
 ```{r}
@@ -98,7 +102,6 @@ Write data frames to CSVs
 ```{r}
 	# #Data with personal data to CSV (row.names=FALSE stops that column from being written to the CSV)
 	# write.csv(data_with_personal_data,"mergedDF.csv", row.names=FALSE)
-
 	#Anonymised data to CSV (row.names=FALSE stops that column from being written to the CSV)
 	write.csv(mergedDf,"../data/mergedDf.csv", row.names=FALSE)
 ```

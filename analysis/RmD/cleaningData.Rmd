@@ -35,24 +35,6 @@ Read anonymised data into data frame
 ```
 
 
-
-Renames the titles of the Question to something easier to use in the code. Also help to have easier name of references.
-
-```{r}
-
-#names(data) <- c('I.Timestamp', 'Q.1.Institution', 'Q.2.Role', 'Q.3.Discipline', 'Q.4.Funds', 
- #                   'Q.5.Seniority', 'Q.6.Use_software', 'Q.7.Importance_software',
-    #                'Q.8.Developing_software', 'Q.9.Training', 'Q.10.Cost_software',
-  #                  'Q.11.Main_software', 'E.1.Job_title', 'E.2.Gender', 'E.3.Contract',
-   #                 'E.4.OS', 'I.Id')
-```
-
-```{r}
-
-	#New column for Extra Question 1
-	#df$E.1.Job_cleaned<-NA
-```
-
 Remove rows that relate to information that is from universities that were not part of the study (or where there is insufficient evidence to identify the university)
 
 ```{r echo=FALSE}
@@ -78,7 +60,7 @@ Correcting misspellings first.
 
 ```{r}
 	#A list is set up with key value pairs relating to the misspelled word and the correct spelling, then a for loop is used to copy the correct spelling over the incorrect one. Where there is more than one misspelling of the same word, we use the OR separator "|" to seperate misspellings
-
+    df$Q.1.Institution <- as.factor(df$Q.1.Institution)
 	spellinglist<-list("Birmningham" = "University of Birmingham",
 					   "Edinburgj" = "University of Edinburgh",
 					   "Glagow" = "University of Glasgow",
@@ -104,10 +86,11 @@ Some respondents provided the name of a unit or school rather than the universit
 					 "Psychology, Health and Society" = "University of Liverpool",
 					 "London Centre for Nanotechnology" = "UCL")
 
+    # Transform in type charactere to use the grep function
+    df$Q.1.Institution <- as.character(df$Q.1.Institution)
 	for (currentuni in names(schoollist)) {
-		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-schoollist[[currentuni]]
+		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)] <- schoollist[[currentuni]]
 	}
-
 ```
 
 People used different ways of referring to the same university (i.e. "University of Nottingham" or "Nottingham University"). In the next step, we uniformise these names.
@@ -133,7 +116,8 @@ People used different ways of referring to the same university (i.e. "University
 				  "University College|UCL" = "UCL")
 
 	#This takes in the key value pairs from the "unilist" defined above, greps for the key in question 1 and replaces with the corresponding value from the unilist
-	for (currentuni in names(unilist)) {
+	
+    for (currentuni in names(unilist)) {
 		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-unilist[[currentuni]]
 	}
 
@@ -198,7 +182,7 @@ The following finds a partial match of the funder name and swaps it for a catego
 	}
 
 	funders_cat_exceptions <- list('Industry' = c('AXA','Commercial Funders','Dyson','Employer', 'Takeda cambridge ltd','industry', 'CSC',
-												  'Veterinary pharmaceutical companies and central university funds'), 
+												  'Veterinary pharmaceutical companies and central university funds'),
 								   'Other charity or fundation' = c('British Academy','Cancer Research UK','Fondation Leducq',
 																	'Grantham Institute','Mellon Foundation','ms society',
 																	'Nuffield Foundation','RAEng - Royal Academy of Engineering',
@@ -271,12 +255,14 @@ First of all, create a new column to clean the df
 
 ```{r}
 	df$E.1.Job.Title.clean <- df$E.1.Job.Title
+    # To apply grep
+    df$E.1.Job.Title.clean <- as.character(df$E.1.Job.Title.clean)
 ```
 
 Correct a spelling mistake
 
 ```{r}
-	df$E.1.Job.Title[df$E.1.Job.Title=="Ressearch Associate"]<-"Research Associate"
+	df$E.1.Job.Title[df$E.1.Job.Title == "Ressearch Associate"] <- "Research Associate"
 ```
 
 To aid understanding, categorise the varied, yet similar, job titles into a new column.
@@ -302,7 +288,7 @@ To aid understanding, categorise the varied, yet similar, job titles into a new 
 
 	#This takes in the key value pairs from the list defined above, greps for the key in question 4 and adds the value from the list to the Q4 cleaned column
 	for (currentjob in names(jobname)) {
-	df$E.1.Job.Title.clean[grep(currentjob,df$E.1.Job.Title, ignore.case=TRUE)]<-jobname[[currentjob]]
+	df$E.1.Job.Title.clean[grep(currentjob,df$E.1.Job.Title, ignore.case=TRUE)] <- jobname[[currentjob]]
 	}
 
 ```
@@ -311,7 +297,7 @@ To aid understanding, categorise the varied, yet similar, job titles into a new 
 There is one "Fellow" in the job titles. There's insufficient df to understand whether this is a postdoctoral Fellow or another type of Fellow. We can't just grep for "Fellow" because there are many different types of Fellow in the df, so we perform a direct match on this exception instead
 
 ```{r}
-	df$E.1.Job.Title.clean[df$E.1.Job_title=="Fellow"]<-"Insufficient data provided"
+	df$E.1.Job.Title.clean[df$E.1.Job_title == "Fellow"] <- "Insufficient data provided"
 ```
 
 Extra Question 2
@@ -320,7 +306,7 @@ Extra Question 2
 Recoding Prefer not to say as NA
 ```{r}
 	df$E.2.Gender.clean <- df$E.2.Gender
-	df$E.2.Gender.clean[df$E.2.Gender=='Prefer not to say'] <- NA
+	df$E.2.Gender.clean[df$E.2.Gender == 'Prefer not to say'] <- NA
 
 ```
 
@@ -331,15 +317,15 @@ Extra Question 3
 ```{r}
 	#Recode One answer as Linux
 	df$E.4.OS.clean <- df$E.4.OS
-	df$E.4.OS.clean[df$E.4.OS.clean =='Any Unix based'] <- 'Linux'
+	df$E.4.OS.clean[df$E.4.OS.clean == 'Any Unix based'] <- 'Linux'
 
 	#Recode one answer as no preference
-	df$E.4.OS.clean[df$E.4.OS.clean =="I prefer Windows and Unix"] <- NA
+	df$E.4.OS.clean[df$E.4.OS.clean == "I prefer Windows and Unix"] <- NA
 	df$E.4.OS.clean[df$E.4.OS.clean == "Don't have a preference"] <- NA
 ```
 
 Write cleaned df
--------------------
+---------------- 
 
 The cleaned df is written to a CSV for later analysis
 
