@@ -1,0 +1,571 @@
+---
+title: "Exploring data-set: Categorical Analysis"
+author: "Olivier PHILIPPE"
+date: "26 June 2015"
+output: html_document
+---
+
+```{r echo=FALSE}
+# Setting up the directory
+(WD <- getwd())
+if (!is.null(WD)) setwd(WD)
+```
+
+```{r echo=FALSE}
+	library('knitr')
+	library('ggplot2')
+    library('plyr')
+	library('RColorBrewer')
+```
+
+
+```{r echo=FALSE}
+	# Function to create own colour palette to use when there is a need to keep the same
+	# colour between plot (otherwise they are changed according to the ordering)
+	myColor <-  function(vectorToColour=vector(), palette='Set3'){
+	  print(vectorToColour)
+		size  <- length(vectorToColour)
+		myColors <- brewer.pal(size, palette)
+		names(myColors) <- vectorToColour
+		return(myColors)
+	}
+```
+
+```{r echo=FALSE}
+	# Function that output a data frame containing the variable, the Frequency and 
+	# rounded percent
+	# Optional order is to output the table ordered in Frequency (useful for output with
+	# kable
+	singleTabFreq <- function(vectorToFreq, name, order=TRUE){
+		# Transform the vector into a table of frequency 
+		table_factor <- table(vectorToFreq)
+		# Cbind is to combine two different sets into one data.frame
+		# the conversion of data.frame within the cbind is to avoid having
+		# the factor in data_row for the frequency
+		# And being able to index only the value for the percentage
+		QSummary <- cbind(as.data.frame(table_factor),
+						as.data.frame(round(prop.table(table_factor)*100))[,2])
+
+		#rename the column names
+		colnames(QSummary) <- c(name, 'Total Respondents', 'Percent')
+		if (order==TRUE){
+			# Order the table by Total Respondents
+			QSummary <- QSummary[order(QSummary[,2]),]
+			# Reorder the level of the factors for using in legend (to match the order of the plot)
+			QSummary[,1] <- factor(QSummary[,1], levels=QSummary[,1][order(QSummary[,2])], ordered=order)
+		}
+		# Write the result into a csv file
+		#write.csv(QSummary, paste('./results/',name,'.csv'), row.names=FALSE)
+		#dev.off()
+		# Output a table of the variable
+		return (QSummary)
+	}
+```
+
+```{r echo=FALSE}
+
+	plotSingleFreq <- function(dataframe, name, column='Total Respondents', order=TRUE, xText=TRUE, ownColour=NA){
+		index_column <- match(column, names(dataframe))
+		# To reorganise the factor level to show on the legend according to the 
+		# frequencies
+		p <- ggplot(data=dataframe, environment=environment())
+		# environment=environment() is a workaround for ggplot2 to get access to the
+		# namespace defined within the function.
+		if (order==TRUE){
+			p <- p + aes(x=reorder(dataframe[,1], dataframe[, index_column]),
+				 		 y=dataframe[,index_column],
+						 fill=dataframe[,1])
+		}
+		else {
+			p <- p + aes(x=dataframe[,1],
+						 y=dataframe[,index_column],
+					     fill=dataframe[,1])
+		}
+		p <- p + geom_bar(stat='identity')
+		p <- p + theme_minimal()
+		p <- p + ylab('')
+		p <- p + xlab('')
+		p <- p + ggtitle(name)
+		p <- p + theme(plot.title = element_text(size=30, face='bold'))
+		p <- p + theme(legend.text=element_text(size=20))
+		p <- p + theme(legend.title=element_blank())
+		if (is.na(ownColour) == FALSE){
+
+			p  <- p + scale_fill_manual(values=ownColour)
+		}
+		if (xText == FALSE) {
+			p  <- p + theme(axis.text.x=element_blank())
+		}
+		p <- p + geom_text(aes(label=dataframe[,index_column]), vjust=-0.2, size=8)
+		return (p)
+	}
+```
+
+```{r echo=FALSE}
+	crossTabFreq <- function(df, var1, var2, propNum=1, summaryTable=TRUE){
+		freqTable <- table(df[[var1]], df[[var2]])
+		if(summaryTable==TRUE){
+			kable(freqTable, digits=2)
+		}
+		dfTable  <- cbind(as.data.frame(freqTable),
+						  as.data.frame(prop.table(freqTable, propNum))[,3])
+		colnames(dfTable) <- c(var1, var2, 'Freq', 'Prop')
+
+		#write.csv(dfTable, paste("./results/cross_table_", var1,'_', var2, '.csv', sep=''), 
+		#		  row.names=FALSE)
+
+		#dev.off()
+		return(dfTable)
+	}
+```
+
+```{r echo=FALSE}
+
+	facetPlot <- function(df, xVar, facetVar, yVar='Prop', removeNA=FALSE, FREQ=TRUE, xText=TRUE){
+		df$Percent  <- df[[yVar]]*100
+		if (removeNA==TRUE) {
+			df <- na.omit(df)
+		}
+		p <- ggplot(df, environment=environment())
+		p <- p + aes_string(x=xVar, y='Percent', fill=xVar)
+		p <- p + geom_bar(stat='identity', position='dodge')
+		p <- p + ylab('')
+		p <- p + xlab('')
+		p <- p + theme(plot.title = element_text(size=30, face='bold'))
+		p <- p + theme(legend.text=element_text(size=20))
+		p <- p + theme(legend.title=element_blank())
+		if (xText == FALSE) {
+			p  <- p + theme(axis.text.x=element_blank())
+		}
+		if (FREQ==TRUE){
+			p <- p + geom_text(aes(label=paste(round(Percent), '%', ' (n=', Freq, ')')), vjust=-0.2, size=4)
+		}
+		else {
+			p <- p + geom_text(aes(label=paste(round(Percent))), vjust=-0.2, size=4)
+		}
+		p <- p + theme(plot.title = element_text(size=20, face="bold", vjust=2))
+		p <- p + facet_wrap(as.formula(paste('~', facetVar)), ncol=2)
+		return(p)
+	}
+```
+
+```{r echo=FALSE}
+
+	chiSquareSummary <- function (table_, var1, var2) {
+		chiValue <- chisq.test(table_)
+		#fisher_value <- fisher.test(table_)
+		if (chiValue$p.value <= .5){
+			write.csv(chiValue$residuals, paste("./results/chi_test_res_", var1,'_', var2, '.csv', sep=''), row.names=FALSE)
+		}
+		return (chi_value)
+	}
+```
+
+
+# 1. Introduction
+This survey aims to give a broad picture of research software use and practice within the Research communities in United-Kingdom. 
+
+## 1.1. Data Collection
+The survey contacted 1,000 randomly selected researchers at each of 15 Russell Group universities by email. From the 15,000 invitations to complete the survey, we received 417 responses – a rate of 3% which is fairly normal for a blind survey. 
+
+We asked people specifically about “research software” which we defined as:
+
+    >Software that is used to generate, process or analyse results that you intend to appear in a publication (either in a journal, conference paper, monograph, book or thesis). Research software can be anything from a few lines of code written by yourself, to a professionally developed software package. Software that does not generate, process or analyse results - such as word processing software, or the use of a web search - does not count as ‘research software’ for the purposes of this survey.
+
+The responses were collected with Google Forms. 
+The data collected during this survey is available for download from Zenodo [INSERT URL], as well as the entire code source of the data cleansing and data analysis [INSERT URL]. It is licensed under a Creative Commons by Attribution licence (attribution to The University of Edinburgh on behalf of the Software Sustainability Institute).
+
+
+```{r echo=FALSE}
+#Loading the data set
+df <-read.csv("SurveyDataCleaned.csv", stringsAsFactors=TRUE, na.strings="")
+```
+
+However, the question 6 asked if the participant uses, or not, a software for his research. Considering that people who are not using any software fall out of our category of interest, 
+we removed them from the dataset and only perform analysis on the filtered data. 
+
+
+
+#2. Exploring the variables. 
+
+Before seeing the repartition of the variable across categories, it is important to have an overview of each variable at once. It helps to spot possible errors, problems, or over-representativeness. 
+The main interest of this research is the understanding of the research community in their use of software and their habit concerning the use, the development and the training of software. 
+Therefore, the first variables we are going to visualise are these three variables: 
+* The importance of software in research
+* The development of software for research
+* The corresponding training 
+
+
+##2.1 Habits concerning software in research 
+
+The first interest is to know if people use software for their research. Over our sample of 406 respondents (after data cleaning), 372 of them use a software for their research (92%). 
+
+```{r fig.width = 20, fig.height=10, echo=FALSE}
+	sumQ  <-  singleTabFreq(df$Q.6.Use_software, 'Use of Software')
+	kable(sumQ, digits=2)
+	plotSingleFreq(sumQ, 'Use of Software')
+```
+Knowing that only 8% do not use software for research, and as the main point is about people how does use software, we decided to filter these 34 respondents for all further analysis, putting our sample to 372 respondents. 
+
+```{r echo=FALSE}
+# subsetting the dataset to contain only software users, meaning people who answered YES at the question 6
+dfYES <- df[which(df$Q.6.Use_software=='Yes'),]
+dfYES <- droplevels(dfYES)
+```
+
+## 2.1.1. Importance of software
+
+The question on the importance of software is a categorical variable with 3 levels.
+The possible answers were as follow
+* It would make no significant difference to my work
+* My work would require more effort, but it would still be possible
+* It would not be practical to conduct my work without software 
+*
+
+```{r echo=FALSE}
+  levels(dfYES$Q.7.Importance_software)[1] <- "No Difference"
+  levels(dfYES$Q.7.Importance_software)[2] <- "Not be Practical"
+  levels(dfYES$Q.7.Importance_software)[3] <- "More effort"
+
+```
+
+```{r fig.width = 20, fig.height=10, echo=FALSE}
+	sumQ  <-  singleTabFreq(dfYES$Q.7.Importance_software, 'Importance of Software')
+	kable(sumQ, digits=2)
+	plotSingleFreq(sumQ, 'Importance of Software')
+```
+
+First, it seems that the "No Difference" category is really marginal. We decide to recode this variable into a binary one, representing if the use of software is essential or not. 
+The 'Essential' category will include the "Non-Essential" and the "No" category will include the marginal  "No Difference" and the "More effort" 
+into two categories "Essential", including the category "No practical" and the other category being "No Essential", including the marginal "No difference" and the "More effort"
+
+```{r echo=FALSE}
+	#Recoding into a binary variable
+	dfYES$Q.7.Essential_software <- revalue(dfYES$Q.7.Importance_software, c('No Difference'='No-Essential', 'More effort'='No-Essential', 'Not be Practical'='Essential'))
+```
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+
+	sumQ  <-  singleTabFreq(dfYES$Q.7.Essential_software, 'Software Essential for research')
+	kable(sumQ, digits=2)
+	plotSingleFreq(sumQ, 'Software Essential for research')
+```
+
+## 2.1.2. Developing its own research software.
+
+It’s not just proprietary software, many researchers are developing their own code: 56% of them. This is great news, because the real power of software lies in developing it to allow you to do more in less time and make new research possible.
+
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+
+	sumQ  <-  singleTabFreq(dfYES$Q.8.Developing_software, 'Developing Software')
+	kable(sumQ, digits=2)
+	plotSingleFreq(sumQ, 'Developing Software')
+```
+
+### 2.1.3. Training to develop software
+
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+
+	sumQ  <-  singleTabFreq(dfYES$Q.9.Clean, 'Training in Software development')
+	kable(sumQ, digits=2)
+	color_Developing <- myColor(sumQ[,1])
+	plotSingleFreq(sumQ, 'Training in Software development', ownColour=color_Developing)
+```
+
+
+### 2.1.4. Training versus developing
+
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+
+	sumQ  <-  singleTabFreq(dfYES[which(dfYES$Q.8.Developing_software == 'Yes'),]$Q.9.Clean, 'Training in Software development')
+	kable(sumQ, digits=2)
+	plotSingleFreq(sumQ, 'Training in Software development', ownColour=color_Developing)
+
+```
+
+
+## 3. Additional informations
+
+
+### 3.1.Disciplines
+
+This question is a multiple choice with the following categories:
+```{r echo=FALSE}
+    levels(factor(dfYES$Q.3.Discipline))
+```
+
+If we output the frequency of distribution we obtain the following table.
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$Q.3.Discipline, 'Discipline')
+    #Printing table
+    kable(sumQ, digits=2)
+    # Printing Plot
+	plotSingleFreq(sumQ, 'Discipline', xText=FALSE)
+```
+
+As we can see, several categories has a really low number of members. The decision to bring different disciplines together is always a difficult decision and will never satisfy all academics on the same time. From this first, an already controversial, aggregate, we decided to sum several of these categories together to avoid almost empty groups for the futures cross-tabulations analysis. 
+We decided to merge the following categories based on the low level of each and an attempt to group them on a common sense:
+*
+* Design, creative & performing arts + Architecture & planning + Humanities & language based studies & archaeology
+* Administrative & business studies + Social studies + Education
+* Medicine, dentistry & health + Agriculture, forestry & veterinary science
+*
+
+```{r echo=FALSE}
+    #install.packages('car')
+    library('car')
+    # Recode the factors
+    DesArHu <- c("Design, creative & performing arts", "Architecture & planning", "Humanities & language based studies & archaeology")
+    AdmSoEd <- c('Administrative & business studies', 'Social studies', 'Education')
+    MedAgri <- c('Medicine, dentistry & health', 'Agriculture, forestry & veterinary science')
+    dfYES$Q.3.Modified_disciplines <- dfYES$Q.3.Discipline
+    dfYES$Q.3.Modified_disciplines <- recode(dfYES$Q.3.Modified_disciplines, "DesArHu='Design+Art+Hum'")
+    dfYES$Q.3.Modified_disciplines <- recode(dfYES$Q.3.Modified_disciplines, "AdmSoEd='Admin+Social+Edu'")
+    dfYES$Q.3.Modified_disciplines <- recode(dfYES$Q.3.Modified_disciplines, "MedAgri='Medicine+Agri'")
+
+```
+Then the distribution table seems more usable even if we probably make more academics angry at this point. 
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    modifiedQ3 <- singleTabFreq(dfYES$Q.3.Modified_disciplines, 'Modified Disciplines')
+    #Print table
+    kable(modifiedQ3, digits=2, row.names = FALSE)
+    plotSingleFreq(modifiedQ3, 'Modified Disciplines')
+```
+
+
+### 3.1.2. Importance of software per disciplines
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified_disciplines', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='Q.3.Modified_disciplines', xVar='Q.7.Essential_software')
+
+```
+
+### 3.1.2. Developing software per disciplines
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified_disciplines', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='Q.3.Modified_disciplines', xVar='Q.8.Developing_software')
+
+```
+
+### 3.1.3. Developing software per disciplines
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified_disciplines', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='Q.3.Modified_disciplines', xVar='Q.9.Clean')
+
+```
+
+## 3.2. Funding Origins
+
+The questions 4 about the funds already been cleaned up during the previous process, some data entered in the free text zone have been recoded in a reduced numbers of factors. At the end we obtain 20 categories. 
+
+```{r echo=FALSE}
+    levels(factor(dfYES$Q.4.Funds_cleaned))
+```
+
+The frequencies distribution is showed on the following table and plot. We can see that there is a high representation of people from EPSRC in the sample (23%).
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$Q.4.Funds_cleaned, 'Funds')
+    kable(sumQ, digits=2, row.names = FALSE)
+    plotSingleFreq(sumQ, 'Funds', xText=FALSE)
+```
+
+The number of categories for this variable is too big to apply a pertinent comparison between them. We decide to recode the 20 categories into 7. 
+
+* **Charity/Trust**: "Leverhulme Trust" - "Other charity or foundation" - "Wellcome Trust"
+* **Research Councils**: "AHRC - Arts and Humanities Research Council" - "BBSRC - Biotechnology and Biological Sciences Research Council" - "EPSRC - Engineering and Physical Sciences Research Council" - "ESRC - Economic and Social Research Council" - "NERC - Natural Environment Research Council" - "STFC - Science and Technology Facilities Council"
+* **Industry**: "Industry"
+* **Other UK**: "Other UK Gov" - "University central funds" - "National Institute for Health Research"
+* **Others Non-UK**: "Non-UK Gov" - "Europe"
+* **None**: "Don't know" - "Insufficient information" - "No funding" - "Self funded"
+
+These categories represents a meta-categories of units. They were build under a common sense logic to help further analysis. As soon as a global picture is obtained, we will do within-categories cross-tabulation analysis. Here following the creation of these categories
+
+```{r, echo=FALSE}
+    dfYES$Q.4.Modified_Funds <- dfYES$Q.4.Funds_cleaned
+    levels(dfYES$Q.4.Modified_Funds)[c(3, 8, 13, 17)] <- 'None'
+    levels(dfYES$Q.4.Modified_Funds)[c(8, 13, 17)] <- 'Charity/Trust'
+    levels(dfYES$Q.4.Modified_Funds)[c(1, 2, 4, 5, 9, 11, 14)] <- 'Research Council'
+    levels(dfYES$Q.4.Modified_Funds)[c(6,8)] <- 'Other UK'
+    levels(dfYES$Q.4.Modified_Funds)[c(3, 7)] <- 'Other Non-UK'
+```
+
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$Q.4.Modified_Funds,'Modified Funds')
+    #Printing table
+    kable(sumQ, digits=2, row.names = FALSE)
+    plotSingleFreq(sumQ, 'Modified Funds')
+```
+    
+We have two types of researcher funding in our sample, one type that is funded by a Research council (52%) and one half with other type of funding. We keep or current categorisation for further analysis. 
+
+### 3.2.1. Importance of software per funding origin
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified_Funds', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='Q.4.Modified_Funds', xVar='Q.7.Essential_software')
+
+```
+
+### 3.2.2. Developing software per funding origin 
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified_Funds', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='Q.4.Modified_Funds', xVar='Q.8.Developing_software')
+
+```
+
+### 3.2.3. Training software per funding origin 
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified_Funds', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='Q.4.Modified_Funds', xVar='Q.9.Clean')
+
+```
+
+### 3.3. Seniority
+
+
+First, we take a look at the variable Seniority. This is an ordinal variable with 6 levels:
+* Less than a year
+* 1-5 years
+* 6-10 years
+* 11-15 years
+* 15-20 years
+* More than 20 years
+We need to recode the levels of the factor for later graphics
+
+```{r echo=FALSE}
+dfYES$Q.5.Seniority <- factor(dfYES$Q.5.Seniority, levels=c('Less than a year', '1-5 years', '6-10 years', '11-15 years', '15-20 years', 'More than 20 years' ))
+```
+
+And now to visualise the repartition of our sample within the Seniority variable.
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$Q.5.Seniority, 'Seniority', order=FALSE)
+    #Printing table
+    kable(sumQ, digits=2)
+    # Printing Plot
+    plotSingleFreq(sumQ, 'Seniority', order=FALSE)
+```
+
+### 3.3.1. Importance of software per Seniority
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.7.Essential_software')
+```
+
+### 3.3.2. Developing software per Seniority 
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.8.Developing_software')
+```
+
+### 3.3.3. Training software per Seniority 
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.9.Clean')
+```
+
+## 3.4. Job title
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$E.1.Job_cleaned, 'Job Title')
+    #Printing table
+    kable(sumQ, digits=2)
+    # Printing Plot
+    plotSingleFreq(sumQ, 'Job Title')
+```
+
+
+### 3.4.1. Importance of software per Job Title
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.1.Job_cleaned', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='E.1.Job_cleaned', xVar='Q.7.Essential_software')
+```
+
+### 3.4.2. Developing software per Job Title
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.1.Job_cleaned', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='E.1.Job_cleaned', xVar='Q.8.Developing_software')
+```
+
+### 3.4.3. Training software per Job Title
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.1.Job_cleaned', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='E.1.Job_cleaned', xVar='Q.9.Clean')
+
+
+## 3.5. Gender
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$E.2.GenderCleaned, 'Gender')
+    #Printing table
+    kable(sumQ, digits=2)
+    # Printing Plot
+    plotSingleFreq(sumQ, 'Gender')
+```
+
+### 3.5.1. Importance of software per Gender
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.2.GenderCleaned', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='E.2.GenderCleaned', xVar='Q.7.Essential_software')
+```
+
+### 3.5.2. Developing software per Gender
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.2.GenderCleaned', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='E.2.GenderCleaned', xVar='Q.8.Developing_software')
+```
+
+### 3.5.3. Training software per Gender
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.2.GenderCleaned', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='E.2.GenderCleaned', xVar='Q.9.Clean')
+
+
+## 3.6. Operating System
+
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+    sumQ <- singleTabFreq(dfYES$E.4.OS_cleaned, 'Operating System')
+
+    #Printing table
+    kable(sumQ, digits=2)
+    # Printing Plot
+    plotSingleFreq(sumQ, 'Operating System')
+```
+
+### 3.6.1. Importance of software per Operating System
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.4.OS_cleaned', 'Q.7.Essential_software') 
+	facetPlot(sumQ, facetVar='E.4.OS_cleaned', xVar='Q.7.Essential_software')
+```
+
+### 3.6.2. Developing software per Operating System
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.4.OS_cleaned', 'Q.8.Developing_software') 
+	facetPlot(sumQ, facetVar='E.4.OS_cleaned', xVar='Q.8.Developing_software')
+```
+
+### 3.6.3. Training software per Operating System
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+	sumQ  <- crossTabFreq(dfYES, 'E.4.OS_cleaned', 'Q.9.Clean') 
+	facetPlot(sumQ, facetVar='E.4.OS_cleaned', xVar='Q.9.Clean')

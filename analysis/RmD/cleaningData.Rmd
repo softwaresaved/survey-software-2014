@@ -1,0 +1,350 @@
+---
+title: "CleaningSoftwareSurveyResultsMay15"
+author: "Simon Hettrick"
+date: "11 May 2015"
+output: html_document
+---
+
+Description
+-----------
+
+This work is based on the results of the "The use of software in research" survey conducted by the survey was conducted by the Software Sustainability Institute from August to November 2014. For more information about the suvey, see the README packaged with this script.
+
+This script has three purposes:
+1. The removal of blank or test data, and results that do not pertain to the survey
+2. Where possible, the correction of mistakes made by the respondents
+3. Collecting responses together into categories for easier analysis
+
+Not all questions require cleaning.
+
+Script
+----------------
+
+```{r echo=FALSE}
+	# Setup the directory
+	(WD <- getwd())
+	if (!is.null(WD)) setwd(WD)
+    rm(WD)
+```
+
+Read anonymised data into data frame
+
+```{r}
+	# Want to load the data as factor because it makes the manipulation easier.
+    df <- read.csv("../data/mergedDf.csv")
+```
+
+
+
+Renames the titles of the Question to something easier to use in the code. Also help to have easier name of references.
+
+```{r}
+
+#names(data) <- c('I.Timestamp', 'Q.1.Institution', 'Q.2.Role', 'Q.3.Discipline', 'Q.4.Funds', 
+ #                   'Q.5.Seniority', 'Q.6.Use_software', 'Q.7.Importance_software',
+    #                'Q.8.Developing_software', 'Q.9.Training', 'Q.10.Cost_software',
+  #                  'Q.11.Main_software', 'E.1.Job_title', 'E.2.Gender', 'E.3.Contract',
+   #                 'E.4.OS', 'I.Id')
+```
+
+```{r}
+
+	#New column for Extra Question 1
+	#df$E.1.Job_cleaned<-NA
+```
+
+Remove rows that relate to information that is from universities that were not part of the study (or where there is insufficient evidence to identify the university)
+
+```{r echo=FALSE}
+	#We identify the rows that `we want to delete, then inverting this (using the ! operator) and output the inverted results as the new "data" data frame.
+	#Remove Respondent_ID 1 the results of which are NA
+	df <- df[!is.na(df$Timestamp),]
+	#Remove Respondent_ID 107 which relates to test df
+	df <- df[!df$Q.1.Institution == 'Test',]
+	#Remove rows that relate to people based at universities that were not part of the 15 universities surveyed in this study
+	#df<-df[(!df$Q.1.Institution=="Univeristy of Ulster") & (!df$Q.1.Institution=="University of Oxford") & (!df$Q.1.Institution=="Keele University") & (!df$Q.1.Institution=="University of London"),]
+
+	#Remove rows that relate to people who gave insufficient evidence to identify their university
+	#df<-df[(!df$Q.1.Institution=="PhD") & (!df$Q.1.Institution=="Look up my IP address from the logs if you really must know") & (!df$Q.1.Institution=="cancer research") & (!df$Q.1.Institution=="University") & (!df$Q.1.Institution=="Chemical Engineering") & (!df$Q.1.Institution=="The Medical School"),]
+```
+
+
+
+
+Question 1
+----------
+
+Correcting misspellings first.
+
+```{r}
+	#A list is set up with key value pairs relating to the misspelled word and the correct spelling, then a for loop is used to copy the correct spelling over the incorrect one. Where there is more than one misspelling of the same word, we use the OR separator "|" to seperate misspellings
+
+	spellinglist<-list("Birmningham" = "University of Birmingham",
+					   "Edinburgj" = "University of Edinburgh",
+					   "Glagow" = "University of Glasgow",
+					   "fLeeds|university of leed" = "University of Leeds",
+					   "Newcstle" = "Newcastle University")
+
+	#This takes in the key value pairs from the list defined above, greps for the key in question 1 and replaces it with the corresponding value from the list
+	for (currentuni in names(spellinglist)) {
+		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-spellinglist[[currentuni]]
+	}
+```
+
+Some respondents provided the name of a unit or school rather than the university at which this is based. By conducting Google searches, the following units or schools can be replaced with the name of the appropriate university
+
+```{r}
+	#See above for description of how the list and for loop works
+
+	schoollist<-list("School of social and community medicine" = "University of Bristol",
+					 "GSDRC" = "University of Birmingham",
+					 "MRC centre for Neuropsychiatric Genetics and Genomics" = "University of Cardiff",
+					 "LIHS" = "University of Leeds",
+					 "MRC Institute of Hearing Research" = "University of Nottingham",
+					 "Psychology, Health and Society" = "University of Liverpool",
+					 "London Centre for Nanotechnology" = "UCL")
+
+	for (currentuni in names(schoollist)) {
+		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-schoollist[[currentuni]]
+	}
+
+```
+
+People used different ways of referring to the same university (i.e. "University of Nottingham" or "Nottingham University"). In the next step, we uniformise these names.
+
+
+```{r}
+	#See above for description of how the list and for loop works
+
+	unilist<-list("Bristol" = "University of Bristol",
+				  "Birmingham" = "University of Birmingham",
+				  "Cambridge" = "University of Cambridge",
+				  "Cardiff" = "Cardiff University",
+				  "Edinburgh" = "University of Edinburgh",
+				  "Glasgow" = "University of Glasgow",
+				  "Imperial" = "Imperial College London",
+				  "Leeds" = "University of Leeds",
+				  "Liverpool" = "University of Liverpool",
+				  "Newcastle" = "Newcastle University",
+				  "Nottingham" = "The University of Nottingham",
+				  "QUB|Queens|Queen's" = "Queen's University Belfast",
+				  "Queen Mary|QMUL" = "Queen Mary's London",
+				  "Sheffield" = "University of Sheffield",
+				  "University College|UCL" = "UCL")
+
+	#This takes in the key value pairs from the "unilist" defined above, greps for the key in question 1 and replaces with the corresponding value from the unilist
+	for (currentuni in names(unilist)) {
+		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-unilist[[currentuni]]
+	}
+
+```
+
+Question 2
+------------
+
+```{r}
+	# Function to remove trailing whitespace. Since R 3.2 a function, trimws, does the same job
+	# This function is needed to avoid having several factors differing only by the trailing spaces
+	trim <- function( x ) {
+		gsub("(^[[:space:]]+|[[:space:]]+$)", "", x)
+	}
+	# Factors to keep for the re-encoding
+	to_keep <- c("I conduct research", "I support researchers", 
+				 "I manage researchers or research projects", 
+				 "I develop software for researchers", 
+				 "Others")
+
+	lvl <- levels(factor(df$Q.2.Role))
+	lvl <- unique(trim(unlist(strsplit(lvl, ','))))
+	char.var <- (as.character(df$Q.2.Role))
+	result <- matrix(data=0, nrow=length(df$Q.2.Role), ncol = length(lvl))
+	for (i in 1: length(lvl)) {
+		result[grep(lvl[i], char.var, fixed=TRUE), i] <- 1
+	}
+
+	result <- data.frame(result, stringsAsFactors = TRUE)
+	result$Others <- rowSums(result[-which(names(result) %in% to_keep)])
+	to_keep <- paste('Q.2', to_keep, sep='.')
+
+	colnames(result) <- paste('Q.2', lvl, sep='.')
+	df <- cbind(df, result[,which(names(result) %in% to_keep)])
+	rm(lvl,char.var,result,to_keep)
+```
+
+
+Question 4
+----------
+
+This question addressed the main source of funding for the respondent. In addition to standard answers, a free-form text box allowed "Other" sources to be identified. To make sense of the df, it is necessary to collect some of the answers together into broader categories (i.e. various company names can be classified as "Industry"). Where possible, any answer with fewer than 5 responses will be collected into a broader category
+
+The following finds a partial match of the funder name and swaps it for a category name instead. This is done using grep whilst ignoring case of the search term to increase matches
+
+```{r}
+	# Copy the column into a new one to clean it 
+	df$Q.4.Fund.clean <- factor(df$Q.4.Fund)
+	#See above for description of how the list and for loop works
+	funder_cat_grep <- list( 'Industry' = 'commercial|companies|industry|company',
+							'Europe' = 'european|europe|^EU|^ERC|^EC',
+							'Other charity or fundation' = 'foundation|charities|charity',
+							'National Institute for Health Research'= 'NIHR',
+							'Non-UK Gov' = 'NIH',
+							'Other UK Gov' = 'government',
+							'Insufficient information' = 'private|student'
+	) 
+
+	for (currentfunder in names(funder_cat_grep)) {
+
+		levels(df$Q.4.Fund.clean)[grep(funder_cat_grep[[currentfunder]], levels(df$Q.4.Fund.clean), ignore.case=TRUE)] <- currentfunder
+	}
+
+	funders_cat_exceptions <- list('Industry' = c('AXA','Commercial Funders','Dyson','Employer', 'Takeda cambridge ltd','industry', 'CSC',
+												  'Veterinary pharmaceutical companies and central university funds'), 
+								   'Other charity or fundation' = c('British Academy','Cancer Research UK','Fondation Leducq',
+																	'Grantham Institute','Mellon Foundation','ms society',
+																	'Nuffield Foundation','RAEng - Royal Academy of Engineering',
+																	'Smith and nephew fellowship','Templeton',
+																	'Tubney Charitable Trust'),
+								   'Non-UK Gov'= c('Canadian Federal Gov', 'Chilean goverment', "CONACYT (Mexico); Imperial College London"),
+								   'Other UK Gov' = c('CSO Chief Scientist Office Scotland','Defra','DFID', 'government departments', 'HEFCE', 'RCUK', 'RIBA research ',
+													  'Royal Society','UK government departments', 'local government / union'),
+								   'No funding' = c('I am new to academia in the UK - currently, none', 'non-funded'),
+								   'Self funded' = c('Myself','private trust fund','Self'),
+								   "Insufficient information" = c('overseas students','Post-grad student fees', 'Range of funders, including some of the above', "SRC", '-',
+																  'Not prepared to answer'),
+								   "AHRC - Arts and Humanities Research Council" = c('WRoCAH'))
+
+	for (currentfunder in names(funders_cat_exceptions)) {
+		levels(df$Q.4.Fund.clean)[levels(df$Q.4.Fund.clean) %in% funders_cat_exceptions[[currentfunder]]] <-  currentfunder
+	}
+```
+ 
+Question 9
+----------
+
+```{r}
+	#Copy the Q.9 into another column to clean it
+	df$Q.9.Training.Software.clean <- as.factor(df$Q.9.Training.Software)
+	#Transform the factors into a four different levels
+	levels(df$Q.9.Training.Software.clean) <- factor(c('NA', 'No', 'Taught', 'Self-taugh+Taught', 'Self-Taught', 'Self-Taught'), ordered=TRUE)
+	#Create another column by converting it into a YES - NO
+	df$Q.9.Training.Software.YN <- df$Q.9.Training.Software.clean
+
+	levels(df$Q.9.Training.Software.YN) <- c('NA', 'No', 'Yes', 'Yes', 'No')
+```
+
+Question 11
+-----------
+
+Question 11 was a free form box into which people could list the software packages that they use in their research. People provided anything from none to 25 different names of software, and some used the suggested comma separated list and others did not. Hence, it is necessary to separate the software names into an ordered list for later analysis. In addition, some uniformisation of the software names needs to be conducted (i.e. "Microsoft Excel", Microsoft Office Excel" and "Excel" all become "Excel").
+
+
+```{r}
+
+	#Split Q11 into items using the separators listed at the end of the strsplit command ",|\n|;|/|&|/.". "softwarenames" will be a list of lists
+	df$Q.11.Main.Software  <- as.character(df$Q.11.Main.Software)
+	splittingQ11<-strsplit(df$Q.11.Main.Software,",|\n|;|/|&|/.")
+	#Flatten the list of lists into one long list
+	softwarenames<-unlist(splittingQ11, recursive=FALSE)
+
+	#Remove the leading and trailing white space
+	#softwarenames<-str_trim(tolower(softwarenames), side = c("both"))
+
+	softwarenames<-trim(softwarenames)
+
+	#Remove company names (including the abbreviation "ms" for Microsoft which needs also to match the space after it to prevent false positives) and anything written in brackets (often a description)
+	softwarenames<-gsub('ms[[:space:]]|microsoft|adobe|\\(.*?\\)', '', softwarenames)
+
+	#This process introduces some entries that are blank, in this step we remove these entries
+	softwarenames<-softwarenames[-(which(softwarenames==""))]
+
+	#People have commented in response to this question. We want to identify and eliminate the comments and leave just the names of the software packages. Most software packages have a name under 20 characters in length, so this next line identifies only those names
+	softwarenames<-softwarenames[nchar(softwarenames) < 20]
+
+	#At this stage we need a count of the software packages that we have now cleaned. "Softwarenames" is a list, so this is fairly easy
+	total_packages<-length(softwarenames)
+
+```
+
+Extra Question 1
+----------------
+First of all, create a new column to clean the df
+
+```{r}
+	df$E.1.Job.Title.clean <- df$E.1.Job.Title
+```
+
+Correct a spelling mistake
+
+```{r}
+	df$E.1.Job.Title[df$E.1.Job.Title=="Ressearch Associate"]<-"Research Associate"
+```
+
+To aid understanding, categorise the varied, yet similar, job titles into a new column.
+
+```{r}
+	#See above for description of how the list and for loop works
+	jobname<-list("administrator" = "Administrator",
+			      "postdoc|research assistant|research associate|research fellow|post-doctoral|PDRA|PGR|post-doc|post doc" = "Postdoctoral Staff",
+				  "lecturer" = "Lecturer",
+				  "phd|research student|postgraduate|Doctoral researcher" = "Postgraduate student",
+				  "professor" = "Professor",
+				  "principal investigator" = "Principal Investigator",
+				  "manager|Clinical Study Co-ordinator|group leader" = "Research or project manager",
+				  "reader" = "Reader",
+				  "Researcher|Research scientist|Clinical Research Nurse|Instrument Scientist|research physiotherapist|Senior Clinical Fellow" = "Researcher",
+				  "Computing Officer|Research Support" = "Research Support Staff",
+				  "Chair|Director" = "Senior management",
+				  "technician" = "Technician",
+				  "teach" = "Technician",
+				  "technician" = "Teaching Staff",
+				  "Dr" = "Insufficient data provided"
+	)
+
+	#This takes in the key value pairs from the list defined above, greps for the key in question 4 and adds the value from the list to the Q4 cleaned column
+	for (currentjob in names(jobname)) {
+	df$E.1.Job.Title.clean[grep(currentjob,df$E.1.Job.Title, ignore.case=TRUE)]<-jobname[[currentjob]]
+	}
+
+```
+
+
+There is one "Fellow" in the job titles. There's insufficient df to understand whether this is a postdoctoral Fellow or another type of Fellow. We can't just grep for "Fellow" because there are many different types of Fellow in the df, so we perform a direct match on this exception instead
+
+```{r}
+	df$E.1.Job.Title.clean[df$E.1.Job_title=="Fellow"]<-"Insufficient data provided"
+```
+
+Extra Question 2
+----------------
+
+Recoding Prefer not to say as NA
+```{r}
+	df$E.2.Gender.clean <- df$E.2.Gender
+	df$E.2.Gender.clean[df$E.2.Gender=='Prefer not to say'] <- NA
+
+```
+
+
+Extra Question 3
+----------------
+
+```{r}
+	#Recode One answer as Linux
+	df$E.4.OS.clean <- df$E.4.OS
+	df$E.4.OS.clean[df$E.4.OS.clean =='Any Unix based'] <- 'Linux'
+
+	#Recode one answer as no preference
+	df$E.4.OS.clean[df$E.4.OS.clean =="I prefer Windows and Unix"] <- NA
+	df$E.4.OS.clean[df$E.4.OS.clean == "Don't have a preference"] <- NA
+```
+
+Write cleaned df
+-------------------
+
+The cleaned df is written to a CSV for later analysis
+
+```{r}
+	#row.names=FALSE stops that column from being written to the CSV
+	write.csv(df, "../data/mergedDfCleaned.csv", row.names=FALSE)
+
+```
