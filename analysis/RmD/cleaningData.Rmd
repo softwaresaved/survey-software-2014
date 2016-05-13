@@ -71,6 +71,7 @@ Correcting misspellings first.
 	for (currentuni in names(spellinglist)) {
 		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-spellinglist[[currentuni]]
 	}
+	rm(currentuni, spellinglist)
 ```
 
 Some respondents provided the name of a unit or school rather than the university at which this is based. By conducting Google searches, the following units or schools can be replaced with the name of the appropriate university
@@ -91,6 +92,7 @@ Some respondents provided the name of a unit or school rather than the universit
 	for (currentuni in names(schoollist)) {
 		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)] <- schoollist[[currentuni]]
 	}
+    rm(currentuni, schoollist)
 ```
 
 People used different ways of referring to the same university (i.e. "University of Nottingham" or "Nottingham University"). In the next step, we uniformise these names.
@@ -119,7 +121,8 @@ People used different ways of referring to the same university (i.e. "University
 	
     for (currentuni in names(unilist)) {
 		df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]<-unilist[[currentuni]]
-	}
+    }
+    rm(unilist, currentuni)
 
 ```
 

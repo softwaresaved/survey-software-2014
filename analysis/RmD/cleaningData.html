@@ -151,7 +151,8 @@ $(document).ready(function () {
     #This takes in the key value pairs from the list defined above, greps for the key in question 1 and replaces it with the corresponding value from the list
     for (currentuni in names(spellinglist)) {
         df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]&lt;-spellinglist[[currentuni]]
-    }</code></pre>
+    }
+    rm(currentuni, spellinglist)</code></pre>
 <p>Some respondents provided the name of a unit or school rather than the university at which this is based. By conducting Google searches, the following units or schools can be replaced with the name of the appropriate university</p>
 <pre class="r"><code>    #See above for description of how the list and for loop works
 
@@ -167,7 +168,8 @@ $(document).ready(function () {
     df$Q.1.Institution &lt;- as.character(df$Q.1.Institution)
     for (currentuni in names(schoollist)) {
         df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)] &lt;- schoollist[[currentuni]]
-    }</code></pre>
+    }
+    rm(currentuni, schoollist)</code></pre>
 <p>People used different ways of referring to the same university (i.e. “University of Nottingham” or “Nottingham University”). In the next step, we uniformise these names.</p>
 <pre class="r"><code>    #See above for description of how the list and for loop works
 
@@ -191,7 +193,8 @@ $(document).ready(function () {
     
     for (currentuni in names(unilist)) {
         df$Q.1.Institution[grep(currentuni,df$Q.1.Institution, ignore.case=TRUE)]&lt;-unilist[[currentuni]]
-    }</code></pre>
+    }
+    rm(unilist, currentuni)</code></pre>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
