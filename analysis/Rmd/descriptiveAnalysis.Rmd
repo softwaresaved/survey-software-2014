@@ -26,7 +26,6 @@ This loop goes to all the questions stated at the beggining of the function. It 
 
 ```{r kable xtable star, results='asis', fig.width = 20 ,fig.height = 10}
 #install.packages('xtable')
-#install.packages("stargazer")
 #install.packages('RGraphics')
 #install.packages('gridExtra')
 #library(stargazer, quietly = TRUE)
@@ -37,16 +36,21 @@ library(gridExtra)
 #library(RGraphics)
 library(ggplot2) 
 library(scales)
+```
+
+```{r}
 #extract legend
 #https://github.com/hadley/ggplot2/wiki/Share-a-legend-between-two-ggplot2-graphs
-
 g_legend<-function(a.gplot){
     tmp <- ggplot_gtable(ggplot_build(a.gplot))
     leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
     legend <- tmp$grobs[[leg]]
     return(legend)}
-for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds_cleaned', 'Q.5.Seniority', 'Q.6.Use_software', 'Q.7.Importance_software',
-            'Q.8.Developing_software', 'Q.10.Cost_software', 'E.1.Job_cleaned', 'E.2.Gender', 'E.3.Contract', 'E.4.OS'))
+```
+
+```{r}
+for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds.clean', 'Q.5.Seniority', 'Q.6.Use.Software', 'Q.7.Importance.Software',
+            'Q.8.Developing.Software', 'Q.10.Cost.Software', 'E.1.Job.clean', 'E.2.Gender', 'E.3.Contract', 'E.4.OS.clean'))
     {
     table_factor = table(data_cleaned[,i])
     # Cbind is to combine two different sets into one data.frame
@@ -61,9 +65,7 @@ for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds_cleaned', 'Q.5.Senio
     # Order the table by Total Respondents 
     QSummary <- QSummary[order(QSummary[,2]),]
     # Output a table of the variable
-    #stargazer(QSummary, title=i, type='html', summary=FALSE, style='aer', column.sep.width='10')
     tableK <- kable(QSummary, digits=2)
-    #print(tableK)
     # Create a Pie chart with the percentage
     g1 <- ggplot(QSummary, aes(x=factor(1), y=QSummary$Percent, fill=QSummary[,i] ))
     g1 <- g1 + geom_bar(stat='identity')
@@ -81,13 +83,9 @@ for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds_cleaned', 'Q.5.Senio
     g1 <- g1 + theme(axis.text.y= element_blank()) 
     g1 <- g1 + xlab('Percent')
     g1 <- g1 + guides(s=guide_legend(ncol=2))
-    #g1 <- g1 + theme(legend.position='none')
     # Plotting a histogram with the total respondents for each questions.
     g2 <- ggplot(QSummary, aes(x=QSummary[,i], y=QSummary$`Total Respondant`, fill=QSummary[,i]))
     g2 <- g2 + geom_bar(stat='identity')
-    #g2 <- g2 + scale_y_continuous(limits=c(min(QSummary$`Total Respondant`), max(QSummary$`Total Respondant`)))
-    #g2 <- g2 + scale_fill_brewer(palette='Set1')
-    #g2 <- g2 + theme_minimal()
     g2 <- g2 + theme(legend.title=element_blank())
     g2 <- g2 + theme(axis.text.x= element_blank()) 
     g2 <- g2 + theme(axis.title.x=element_blank())
@@ -97,7 +95,6 @@ for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds_cleaned', 'Q.5.Senio
 
     legend <- g_legend(g1)
     #Put the two graphs side-by-side
-    #tableK <- tableGrob(tableK)
     g3 <- grid.arrange(arrangeGrob(g1+theme(legend.position='none'),g2, nrow=2), legend, ncol=2)
     
     #Assign create a variable containing the Summary
@@ -105,6 +102,4 @@ for (i in c('Q.1.Institution', 'Q.3.Discipline', 'Q.4.Funds_cleaned', 'Q.5.Senio
     # Remove the generated variables to keep the environment clean
     rm(QSummary,legend,g1,g2,g3,table_factor,i)
 }
-
-
 ```
