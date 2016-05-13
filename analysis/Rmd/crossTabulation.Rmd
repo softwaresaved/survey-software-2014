@@ -1,11 +1,17 @@
 ---
-title: "Exploring data-set: Categorical Analysis"
+title: 'Exploring data-set: Categorical Analysis'
 author: "Olivier PHILIPPE"
 date: "26 June 2015"
-output: html_document
+output:
+    html_document:
+        keep_md: yes
+        number_sections: yes
+        toc_depth: 4
+    github_document:
+        md_extensions: -autolink_bare_uris+hard_line_breaks
 ---
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 # Setting up the directory
 (WD <- getwd())
 if (!is.null(WD)) setwd(WD)
@@ -129,6 +135,7 @@ if (!is.null(WD)) setwd(WD)
 		p <- ggplot(df, environment=environment())
 		p <- p + aes_string(x=xVar, y='Percent', fill=xVar)
 		p <- p + geom_bar(stat='identity', position='dodge')
+		p <- p + theme_minimal()
 		p <- p + ylab('')
 		p <- p + xlab('')
 		p <- p + theme(plot.title = element_text(size=30, face='bold'))
@@ -162,10 +169,10 @@ if (!is.null(WD)) setwd(WD)
 ```
 
 
-# 1. Introduction
+# Introduction
 This survey aims to give a broad picture of research software use and practice within the Research communities in United-Kingdom. 
 
-## 1.1. Data Collection
+## Data Collection
 The survey contacted 1,000 randomly selected researchers at each of 15 Russell Group universities by email. From the 15,000 invitations to complete the survey, we received 417 responses – a rate of 3% which is fairly normal for a blind survey. 
 
 We asked people specifically about “research software” which we defined as:
@@ -185,7 +192,7 @@ we removed them from the dataset and only perform analysis on the filtered data.
 
 
 
-#2. Exploring the variables. 
+# Exploring the variables. 
 
 Before seeing the repartition of the variable across categories, it is important to have an overview of each variable at once. It helps to spot possible errors, problems, or over-representativeness. 
 The main interest of this research is the understanding of the research community in their use of software and their habit concerning the use, the development and the training of software. 
@@ -195,7 +202,7 @@ Therefore, the first variables we are going to visualise are these three variabl
 * The corresponding training 
 
 
-##2.1 Habits concerning software in research 
+## Habits concerning software in research 
 
 The first interest is to know if people use software for their research. Over our sample of 406 respondents (after data cleaning), 372 of them use a software for their research (92%). 
 
@@ -213,7 +220,7 @@ dfYES <- df[which(df$Q.6.Use.Software=='Yes'),]
 dfYES <- droplevels(dfYES)
 ```
 
-## 2.1.1. Importance of software
+## Importance of software
 
 The question on the importance of software is a categorical variable with 3 levels.
 The possible answers were as follow
@@ -251,7 +258,7 @@ into two categories "Essential", including the category "No practical" and the o
 	plotSingleFreq(sumQ, 'Software Essential for research')
 ```
 
-## 2.1.2. Developing its own research software.
+## Developing its own research software.
 
 It’s not just proprietary software, many researchers are developing their own code: 56% of them. This is great news, because the real power of software lies in developing it to allow you to do more in less time and make new research possible.
 
@@ -263,7 +270,7 @@ It’s not just proprietary software, many researchers are developing their own 
 	plotSingleFreq(sumQ, 'Developing Software')
 ```
 
-### 2.1.3. Training to develop software
+### Training to develop software
 
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
@@ -275,7 +282,7 @@ It’s not just proprietary software, many researchers are developing their own 
 ```
 
 
-### 2.1.4. Training versus developing
+### Training versus developing
 
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
@@ -287,10 +294,10 @@ It’s not just proprietary software, many researchers are developing their own 
 ```
 
 
-## 3. Additional informations
+## Additional informations
 
 
-### 3.1.Disciplines
+### Disciplines
 
 This question is a multiple choice with the following categories:
 
@@ -337,7 +344,7 @@ Then the distribution table seems more usable even if we probably make more acad
 ```
 
 
-### 3.1.2. Importance of software per disciplines
+### Importance of software per disciplines
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified.Disciplines', 'Q.7.Essential.Software') 
@@ -345,7 +352,7 @@ Then the distribution table seems more usable even if we probably make more acad
 
 ```
 
-### 3.1.2. Developing software per disciplines
+### Developing software per disciplines
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified.Disciplines', 'Q.8.Developing.Software') 
@@ -353,7 +360,7 @@ Then the distribution table seems more usable even if we probably make more acad
 
 ```
 
-### 3.1.3. Developing software per disciplines
+### Developing software per disciplines
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.3.Modified.Disciplines', 'Q.9.Training.Software.clean') 
@@ -361,7 +368,7 @@ Then the distribution table seems more usable even if we probably make more acad
 
 ```
 
-## 3.2. Funding Origins
+## Funding Origins
 
 The questions 4 about the funds already been cleaned up during the previous process, some data entered in the free text zone have been recoded in a reduced numbers of factors. At the end we obtain 20 categories. 
 
@@ -403,7 +410,7 @@ These categories represents a meta-categories of units. They were build under a 
     
 We have two types of researcher funding in our sample, one type that is funded by a Research council (52%) and one half with other type of funding. We keep or current categorisation for further analysis. 
 
-### 3.2.1. Importance of software per funding origin
+### Importance of software per funding origin
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified.Funds', 'Q.7.Essential.Software') 
@@ -411,21 +418,21 @@ We have two types of researcher funding in our sample, one type that is funded b
 
 ```
 
-### 3.2.2. Developing software per funding origin 
+### Developing software per funding origin 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified.Funds', 'Q.8.Developing.Software') 
 	facetPlot(sumQ, facetVar='Q.4.Modified.Funds', xVar='Q.8.Developing.Software')
 
 ```
 
-### 3.2.3. Training software per funding origin 
+### Training software per funding origin 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.4.Modified.Funds', 'Q.9.Training.Software.clean') 
 	facetPlot(sumQ, facetVar='Q.4.Modified.Funds', xVar='Q.9.Training.Software.clean')
 
 ```
 
-### 3.3. Seniority
+### Seniority
 
 
 First, we take a look at the variable Seniority. This is an ordinal variable with 6 levels:
@@ -451,26 +458,26 @@ And now to visualise the repartition of our sample within the Seniority variable
     plotSingleFreq(sumQ, 'Seniority', order=FALSE)
 ```
 
-### 3.3.1. Importance of software per Seniority
+### Importance of software per Seniority
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.7.Essential.Software') 
 	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.7.Essential.Software')
 ```
 
-### 3.3.2. Developing software per Seniority 
+### Developing software per Seniority 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.8.Developing.Software') 
 	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.8.Developing.Software')
 ```
 
-### 3.3.3. Training software per Seniority 
+### Training software per Seniority 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.9.Training.Software.clean') 
 	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.9.Training.Software.clean')
 ```
 
-### 3.5. Gender
+## Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
     sumQ <- singleTabFreq(dfYES$E.2.Gender.clean, 'Gender')
@@ -480,28 +487,28 @@ And now to visualise the repartition of our sample within the Seniority variable
     plotSingleFreq(sumQ, 'Gender')
 ```
 
-### 3.5.1. Importance of software per Gender
+### Importance of software per Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.2.Gender.clean', 'Q.7.Essential.Software') 
 	facetPlot(sumQ, facetVar='E.2.Gender.clean', xVar='Q.7.Essential.Software')
 ```
 
-### 3.5.2. Developing software per Gender
+### Developing software per Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.2.Gender.clean', 'Q.8.Developing.Software') 
 	facetPlot(sumQ, facetVar='E.2.Gender.clean', xVar='Q.8.Developing.Software')
 ```
 
-### 3.5.3. Training software per Gender
+### Training software per Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.2.Gender.clean', 'Q.9.Training.Software.clean') 
 	facetPlot(sumQ, facetVar='E.2.Gender.clean', xVar='Q.9.Training.Software.clean')
 ```
 
-## 3.6. Operating System
+## Operating System
 
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
@@ -511,21 +518,21 @@ And now to visualise the repartition of our sample within the Seniority variable
     # Printing Plot
     plotSingleFreq(sumQ, 'Operating System')
 ```
-### 3.6.1. Importance of software per Operating System
+### Importance of software per Operating System
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.4.OS.clean', 'Q.7.Essential.Software') 
 	facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.7.Essential.Software')
 ```
 
-### 3.6.2. Developing software per Operating System
+### Developing software per Operating System
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.4.OS.clean', 'Q.8.Developing.Software') 
 	facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.8.Developing.Software')
 ```
 
-### 3.6.3. Training software per Operating System
+### Training software per Operating System
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 	sumQ  <- crossTabFreq(dfYES, 'E.4.OS.clean', 'Q.9.Training.Software.clean') 
