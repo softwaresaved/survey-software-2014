@@ -366,16 +366,12 @@ Then the distribution table seems more usable even if we probably make more acad
 
 The questions 4 about the funds already been cleaned up during the previous process, some data entered in the free text zone have been recoded in a reduced numbers of factors. At the end we obtain 20 categories. 
 
-```{r echo=FALSE}
-    levels(factor(dfYES$Q.4.Fund.clean))
-```
-
 The frequencies distribution is showed on the following table and plot. We can see that there is a high representation of people from EPSRC in the sample (23%).
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
     sumQ <- singleTabFreq(dfYES$Q.4.Fund.clean, 'Funds')
     kable(sumQ, digits=2, row.names = FALSE)
-    plotSingleFreq(sumQ, 'Funds', xText=FALSE)
+    #plotSingleFreq(sumQ, 'Funds', xText=FALSE)
 ```
 
 The number of categories for this variable is too big to apply a pertinent comparison between them. We decide to recode the 20 categories into 7. 

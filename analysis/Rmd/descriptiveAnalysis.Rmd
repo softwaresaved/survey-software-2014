@@ -18,7 +18,7 @@ Read cleaned data into data frame
 
 ```{r}
 #Don't want strings as factors because it makes later changes difficult, and want any blank response inserted as "NA"
-data_cleaned<-read.csv("SurveyDataCleaned.csv", stringsAsFactors=TRUE, na.strings="")
+data_cleaned<-read.csv("../data/mergedDfCleaned.csv", stringsAsFactors=TRUE, na.strings="")
 
 ```
 
@@ -29,12 +29,12 @@ This loop goes to all the questions stated at the beggining of the function. It 
 #install.packages("stargazer")
 #install.packages('RGraphics')
 #install.packages('gridExtra')
-library(stargazer, quietly = TRUE)
+#library(stargazer, quietly = TRUE)
 library(xtable)
 library(knitr)
 library(grid)
 library(gridExtra) 
-library(RGraphics)
+#library(RGraphics)
 library(ggplot2) 
 library(scales)
 #extract legend
