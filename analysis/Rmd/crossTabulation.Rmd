@@ -64,7 +64,6 @@ if (!is.null(WD)) setwd(WD)
 ```
 
 ```{r echo=FALSE}
-
 	plotSingleFreq <- function(dataframe, name, column='Total Respondents', order=TRUE, xText=TRUE, ownColour=NA){
 		index_column <- match(column, names(dataframe))
 		# To reorganise the factor level to show on the legend according to the 
@@ -471,39 +470,7 @@ And now to visualise the repartition of our sample within the Seniority variable
 	facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.9.Training.Software.clean')
 ```
 
-## 3.4. Job title
-
-#```{r fig.width=20, fig.height=10, echo=FALSE}
-    sumQ <- singleTabFreq(dfYES$E.1.Job.Title.clean, 'Job Title')
-    #Printing table
-    kable(sumQ, digits=2)
-    # Printing Plot
-    plotSingleFreq(sumQ, 'Job Title')
-```
-
-
-### 3.4.1. Importance of software per Job Title
-
-```{r fig.width=20, fig.height=10, echo=FALSE}
-	sumQ  <- crossTabFreq(dfYES, 'E.1.Job.Title.clean', 'Q.7.Essential.Software') 
-	facetPlot(sumQ, facetVar='E.1.Job.Title.clean', xVar='Q.7.Essential.Software')
-#```
-
-### 3.4.2. Developing software per Job Title
-
-#```{r fig.width=20, fig.height=10, echo=FALSE}
-	sumQ  <- crossTabFreq(dfYES, 'E.1.Job.Title.clean', 'Q.8.Developing.Software') 
-	facetPlot(sumQ, facetVar='E.1.Job.Title.clean', xVar='Q.8.Developing.Software')
-```
-
-### 3.4.3. Training software per Job Title
-
-```{r fig.width=20, fig.height=10, echo=FALSE}
-	sumQ  <- crossTabFreq(dfYES, 'E.1.Job.Title.clean', 'Q.9.Training.Software.clean') 
-	facetPlot(sumQ, facetVar='E.1.Job.Title.clean', xVar='Q.9.Training.Software.clean')
-#```
-
-## 3.5. Gender
+### 3.5. Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
     sumQ <- singleTabFreq(dfYES$E.2.Gender.clean, 'Gender')
