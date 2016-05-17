@@ -3,7 +3,7 @@ R code used to analyse the data collected in 2014 during the Software Survey
 
 ## Files
 
-* `Rmd/*`: Rmd code used to created the clean dataset 
+* [`Rmd`](Rmd): Rmd code used to created the clean dataset 
 
 * `analysis_files/figure-html/*`: Figures image in png generated automatically by knitr for the analysis.md
 * `data/*`: Datasets used for the analysis in csv format
