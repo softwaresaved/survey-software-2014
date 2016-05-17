@@ -185,12 +185,12 @@ We asked people specifically about “research software” which we defined as:
     >Software that is used to generate, process or analyse results that you intend to appear in a publication (either in a journal, conference paper, monograph, book or thesis). Research software can be anything from a few lines of code written by yourself, to a professionally developed software package. Software that does not generate, process or analyse results - such as word processing software, or the use of a web search - does not count as ‘research software’ for the purposes of this survey.
 
 The responses were collected with Google Forms. 
-The data collected during this survey is available for download from Zenodo [INSERT URL], as well as the entire code source of the data cleansing and data analysis [INSERT URL]. It is licensed under a Creative Commons by Attribution licence (attribution to The University of Edinburgh on behalf of the Software Sustainability Institute).
+The data collected during this survey is available for download from Zenodo, as well as the entire code source of the data cleansing and data analysis. It is licensed under a Creative Commons by Attribution licence (attribution to The University of Edinburgh on behalf of the Software Sustainability Institute).
 
 
 ```{r echo=FALSE}
     #Loading the data set
-    df <-read.csv("../data/mergedDfCleaned.csv", stringsAsFactors=TRUE, na.strings="")
+    df <-read.csv("data/mergedDfCleaned.csv", stringsAsFactors=TRUE, na.strings="")
 ```
 However, the question 6 asked if the participant uses, or not, a software for his research. Considering that people who are not using any software fall out of our category of interest, 
 we removed them from the dataset and only perform analysis on the filtered data. 
