@@ -165,23 +165,6 @@ It’s not just proprietary software, many researchers are developing their own 
 
 ### Disciplines
 
-This question is a multiple choice with the following categories:
-
-
-```
-##  [1] "Administrative & business studies"                
-##  [2] "Agriculture, forestry & veterinary science"       
-##  [3] "Architecture & planning"                          
-##  [4] "Biological, mathematical & physical sciences"     
-##  [5] "Design, creative & performing arts"               
-##  [6] "Education"                                        
-##  [7] "Engineering & technology"                         
-##  [8] "Humanities & language based studies & archaeology"
-##  [9] "Medicine, dentistry & health"                     
-## [10] "None of the above"                                
-## [11] "Social studies"
-```
-
 If we output the frequency of distribution we obtain the following table.
 
 
@@ -199,7 +182,7 @@ If we output the frequency of distribution we obtain the following table.
 |7  |Engineering & technology                          |               111|      21|
 |4  |Biological, mathematical & physical sciences      |               249|      48|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 As we can see, several categories has a really low number of members. The decision to bring different disciplines together is always a difficult decision and will never satisfy all academics on the same time. From this first, an already controversial, aggregate, we decided to sum several of these categories together to avoid almost empty groups for the futures cross-tabulations analysis. 
 We decided to merge the following categories based on the low level of each and an attempt to group them on a common sense:
@@ -222,20 +205,20 @@ Then the distribution table seems more usable even if we probably make more acad
 |Engineering & technology                     |               111|      21|
 |Biological, mathematical & physical sciences |               249|      48|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 
 ### Importance of software per disciplines
+
+![](crossTabulation_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+
+### Developing software per disciplines
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 ### Developing software per disciplines
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
-
-### Developing software per disciplines
-
-![](crossTabulation_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ## Funding Origins
 
@@ -314,19 +297,19 @@ These categories represents a meta-categories of units. They were build under a 
 |University central funds                         |                49|      11|
 |Research Council                                 |               187|      42|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
     
 We have two types of researcher funding in our sample, one type that is funded by a Research council (52%) and one half with other type of funding. We keep or current categorisation for further analysis. 
 
 ### Importance of software per funding origin
 
-![](crossTabulation_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 ### Developing software per funding origin 
-![](crossTabulation_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
 ### Training software per funding origin 
-![](crossTabulation_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 ### Seniority
 
@@ -354,17 +337,17 @@ And now to visualise the repartition of our sample within the Seniority variable
 |15-20 years        |                44|       8|
 |More than 20 years |                83|      16|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 ### Importance of software per Seniority
 
-![](crossTabulation_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 ### Developing software per Seniority 
-![](crossTabulation_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 ### Training software per Seniority 
-![](crossTabulation_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 ## Gender
 
@@ -377,45 +360,41 @@ And now to visualise the repartition of our sample within the Seniority variable
 |1  |Female  |               161|      31|
 |3  |Male    |               342|      66|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 ### Importance of software per Gender
 
-![](crossTabulation_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 ### Developing software per Gender
 
-![](crossTabulation_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 ### Training software per Gender
 
-![](crossTabulation_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 ## Operating System
 
 
 
-|   |Operating System                                                                   | Total Respondents| Percent|
-|:--|:----------------------------------------------------------------------------------|-----------------:|-------:|
-|1  |Desktop: OSX, Servers: GNU/Linux, Phone: Android, Gaming machine: Windows          |                 1|       0|
-|3  |Linux and Mac OS X                                                                 |                 1|       0|
-|5  |Male                                                                               |                 1|       0|
-|8  |Used to Windows, but am switching more and more to Linux (especially for research) |                 1|       0|
-|9  |VMS                                                                                |                 1|       0|
-|7  |NA                                                                                 |                60|      12|
-|4  |Mac OS X                                                                           |               126|      24|
-|2  |Linux                                                                              |               140|      27|
-|6  |Microsoft Windows                                                                  |               187|      36|
+|   |Operating System        | Total Respondents| Percent|
+|:--|:-----------------------|-----------------:|-------:|
+|5  |NA                      |                11|       2|
+|1  |Don't have a preference |                59|      11|
+|3  |Mac OS X                |               126|      24|
+|2  |GNU/Linux               |               140|      27|
+|4  |Microsoft Windows       |               187|      36|
 
-![](crossTabulation_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 ### Importance of software per Operating System
 
-![](crossTabulation_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 ### Developing software per Operating System
 
-![](crossTabulation_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 ### Training software per Operating System
 
-![](crossTabulation_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](crossTabulation_files/figure-html/unnamed-chunk-43-1.png)<!-- -->

@@ -345,13 +345,379 @@ $(document).ready(function () {
 </div>
 <div id="extra-question-3" class="section level2">
 <h2>Extra Question 3</h2>
-<pre class="r"><code>    #Recode One answer as Linux
-    df$E.4.OS.clean &lt;- df$E.4.OS
-    df$E.4.OS.clean[df$E.4.OS.clean == 'Any Unix based'] &lt;- 'Linux'
-
-    #Recode one answer as no preference
-    df$E.4.OS.clean[df$E.4.OS.clean == &quot;I prefer Windows and Unix&quot;] &lt;- NA
-    df$E.4.OS.clean[df$E.4.OS.clean == &quot;Don't have a preference&quot;] &lt;- NA</code></pre>
+<pre class="r"><code>    common_os &lt;- c('GNU/Linux', 'Microsoft Windows', 'Mac OS X', 'Others', 'Don\'t have a preference')
+    df$E.4.OS.clean &lt;- as.factor(df$E.4.OS)
+    levels(df$E.4.OS.clean)</code></pre>
+<pre><code>##  [1] &quot;&quot;                                                                                  
+##  [2] &quot;Any Unix based&quot;                                                                    
+##  [3] &quot;Depends on the situation&quot;                                                          
+##  [4] &quot;Desktop: OSX, Servers: GNU/Linux, Phone: Android, Gaming machine: Windows&quot;         
+##  [5] &quot;Don't have a preference&quot;                                                           
+##  [6] &quot;DOS or ZX Spectrum&quot;                                                                
+##  [7] &quot;I prefer Windows and Unix&quot;                                                         
+##  [8] &quot;Linux&quot;                                                                             
+##  [9] &quot;Linux and Mac OS X&quot;                                                                
+## [10] &quot;Mac OS X&quot;                                                                          
+## [11] &quot;Male&quot;                                                                              
+## [12] &quot;Microsoft Windows&quot;                                                                 
+## [13] &quot;Used to Windows, but am switching more and more to Linux (especially for research)&quot;
+## [14] &quot;VMS&quot;                                                                               
+## [15] &quot;Windows for Analysis, Linux for Science&quot;</code></pre>
+<pre class="r"><code>    levels(df$E.4.OS.clean)[levels(df$E.4.OS.clean) == 'Any Unix based'] &lt;- 'GNU/Linux'
+    levels(df$E.4.OS.clean)[levels(df$E.4.OS.clean) == 'Linux'] &lt;- 'GNU/Linux'
+    levels(df$E.4.OS.clean)[!(levels(df$E.4.OS.clean) %in% common_os)] &lt;- NA
+    droplevels(df$E.4.OS.clean)</code></pre>
+<pre><code>##   [1] &lt;NA&gt;                    GNU/Linux              
+##   [3] GNU/Linux               GNU/Linux              
+##   [5] Microsoft Windows       Microsoft Windows      
+##   [7] &lt;NA&gt;                    GNU/Linux              
+##   [9] Mac OS X                &lt;NA&gt;                   
+##  [11] Don't have a preference Microsoft Windows      
+##  [13] Mac OS X                Microsoft Windows      
+##  [15] Microsoft Windows       Microsoft Windows      
+##  [17] Don't have a preference Mac OS X               
+##  [19] Microsoft Windows       Microsoft Windows      
+##  [21] Mac OS X                Mac OS X               
+##  [23] GNU/Linux               Microsoft Windows      
+##  [25] Microsoft Windows       Mac OS X               
+##  [27] GNU/Linux               GNU/Linux              
+##  [29] Mac OS X                Microsoft Windows      
+##  [31] Microsoft Windows       Mac OS X               
+##  [33] Microsoft Windows       Mac OS X               
+##  [35] Mac OS X                Microsoft Windows      
+##  [37] Microsoft Windows       Mac OS X               
+##  [39] Microsoft Windows       Microsoft Windows      
+##  [41] Mac OS X                Mac OS X               
+##  [43] GNU/Linux               Mac OS X               
+##  [45] Microsoft Windows       Don't have a preference
+##  [47] Microsoft Windows       Don't have a preference
+##  [49] Mac OS X                Microsoft Windows      
+##  [51] Mac OS X                GNU/Linux              
+##  [53] Microsoft Windows       Microsoft Windows      
+##  [55] Microsoft Windows       Mac OS X               
+##  [57] Microsoft Windows       Microsoft Windows      
+##  [59] Microsoft Windows       Mac OS X               
+##  [61] Mac OS X                GNU/Linux              
+##  [63] GNU/Linux               Don't have a preference
+##  [65] Microsoft Windows       Mac OS X               
+##  [67] Microsoft Windows       Mac OS X               
+##  [69] Microsoft Windows       Microsoft Windows      
+##  [71] GNU/Linux               Microsoft Windows      
+##  [73] Mac OS X                GNU/Linux              
+##  [75] Mac OS X                Mac OS X               
+##  [77] Don't have a preference Microsoft Windows      
+##  [79] Microsoft Windows       Microsoft Windows      
+##  [81] Don't have a preference Microsoft Windows      
+##  [83] &lt;NA&gt;                    Microsoft Windows      
+##  [85] Microsoft Windows       Mac OS X               
+##  [87] Microsoft Windows       Don't have a preference
+##  [89] Mac OS X                Mac OS X               
+##  [91] Don't have a preference Microsoft Windows      
+##  [93] Microsoft Windows       GNU/Linux              
+##  [95] Microsoft Windows       Don't have a preference
+##  [97] Mac OS X                Don't have a preference
+##  [99] Microsoft Windows       Mac OS X               
+## [101] Mac OS X                Don't have a preference
+## [103] Don't have a preference Microsoft Windows      
+## [105] Microsoft Windows       Mac OS X               
+## [107] Microsoft Windows       Don't have a preference
+## [109] Microsoft Windows       Microsoft Windows      
+## [111] Don't have a preference Microsoft Windows      
+## [113] Microsoft Windows       Mac OS X               
+## [115] Microsoft Windows       Microsoft Windows      
+## [117] Microsoft Windows       Microsoft Windows      
+## [119] Mac OS X                Microsoft Windows      
+## [121] Microsoft Windows       Microsoft Windows      
+## [123] Don't have a preference Don't have a preference
+## [125] Mac OS X                Don't have a preference
+## [127] Microsoft Windows       Don't have a preference
+## [129] Microsoft Windows       GNU/Linux              
+## [131] Don't have a preference Microsoft Windows      
+## [133] GNU/Linux               Microsoft Windows      
+## [135] GNU/Linux               Mac OS X               
+## [137] Mac OS X                GNU/Linux              
+## [139] Microsoft Windows       GNU/Linux              
+## [141] Mac OS X                Microsoft Windows      
+## [143] Microsoft Windows       Mac OS X               
+## [145] Microsoft Windows       Microsoft Windows      
+## [147] Microsoft Windows       GNU/Linux              
+## [149] &lt;NA&gt;                    GNU/Linux              
+## [151] Mac OS X                GNU/Linux              
+## [153] Microsoft Windows       Mac OS X               
+## [155] Microsoft Windows       GNU/Linux              
+## [157] Don't have a preference Microsoft Windows      
+## [159] Microsoft Windows       Microsoft Windows      
+## [161] Microsoft Windows       Microsoft Windows      
+## [163] GNU/Linux               GNU/Linux              
+## [165] Microsoft Windows       Microsoft Windows      
+## [167] Microsoft Windows       Mac OS X               
+## [169] Microsoft Windows       Microsoft Windows      
+## [171] Microsoft Windows       Microsoft Windows      
+## [173] Don't have a preference Microsoft Windows      
+## [175] Mac OS X                Microsoft Windows      
+## [177] GNU/Linux               Microsoft Windows      
+## [179] Microsoft Windows       GNU/Linux              
+## [181] Mac OS X                GNU/Linux              
+## [183] Mac OS X                Microsoft Windows      
+## [185] &lt;NA&gt;                    Mac OS X               
+## [187] Microsoft Windows       GNU/Linux              
+## [189] Mac OS X                Microsoft Windows      
+## [191] Don't have a preference Don't have a preference
+## [193] Microsoft Windows       Mac OS X               
+## [195] Microsoft Windows       Microsoft Windows      
+## [197] Mac OS X                GNU/Linux              
+## [199] Microsoft Windows       Microsoft Windows      
+## [201] Mac OS X                Mac OS X               
+## [203] Microsoft Windows       Don't have a preference
+## [205] Mac OS X                Microsoft Windows      
+## [207] Microsoft Windows       GNU/Linux              
+## [209] Mac OS X                Mac OS X               
+## [211] Microsoft Windows       Microsoft Windows      
+## [213] Microsoft Windows       Don't have a preference
+## [215] GNU/Linux               Microsoft Windows      
+## [217] Microsoft Windows       Microsoft Windows      
+## [219] GNU/Linux               Mac OS X               
+## [221] Microsoft Windows       GNU/Linux              
+## [223] GNU/Linux               Microsoft Windows      
+## [225] GNU/Linux               GNU/Linux              
+## [227] Don't have a preference Microsoft Windows      
+## [229] Microsoft Windows       Microsoft Windows      
+## [231] Microsoft Windows       Mac OS X               
+## [233] Microsoft Windows       Mac OS X               
+## [235] Mac OS X                Mac OS X               
+## [237] Mac OS X                Microsoft Windows      
+## [239] Microsoft Windows       GNU/Linux              
+## [241] Microsoft Windows       Don't have a preference
+## [243] Microsoft Windows       GNU/Linux              
+## [245] GNU/Linux               GNU/Linux              
+## [247] Microsoft Windows       Microsoft Windows      
+## [249] GNU/Linux               GNU/Linux              
+## [251] Microsoft Windows       Microsoft Windows      
+## [253] Microsoft Windows       Mac OS X               
+## [255] Mac OS X                Mac OS X               
+## [257] GNU/Linux               GNU/Linux              
+## [259] GNU/Linux               Mac OS X               
+## [261] GNU/Linux               Mac OS X               
+## [263] Mac OS X                Mac OS X               
+## [265] Microsoft Windows       Microsoft Windows      
+## [267] GNU/Linux               Mac OS X               
+## [269] Microsoft Windows       GNU/Linux              
+## [271] Microsoft Windows       Microsoft Windows      
+## [273] Microsoft Windows       GNU/Linux              
+## [275] Don't have a preference Mac OS X               
+## [277] Microsoft Windows       Mac OS X               
+## [279] Mac OS X                GNU/Linux              
+## [281] Microsoft Windows       GNU/Linux              
+## [283] GNU/Linux               GNU/Linux              
+## [285] Microsoft Windows       Mac OS X               
+## [287] Don't have a preference Mac OS X               
+## [289] Mac OS X                Microsoft Windows      
+## [291] Don't have a preference Microsoft Windows      
+## [293] Mac OS X                GNU/Linux              
+## [295] Microsoft Windows       Microsoft Windows      
+## [297] Don't have a preference Microsoft Windows      
+## [299] GNU/Linux               GNU/Linux              
+## [301] Microsoft Windows       Mac OS X               
+## [303] Microsoft Windows       Microsoft Windows      
+## [305] Don't have a preference GNU/Linux              
+## [307] Microsoft Windows       Microsoft Windows      
+## [309] GNU/Linux               GNU/Linux              
+## [311] Microsoft Windows       GNU/Linux              
+## [313] Don't have a preference Microsoft Windows      
+## [315] Microsoft Windows       GNU/Linux              
+## [317] Mac OS X                GNU/Linux              
+## [319] Microsoft Windows       Mac OS X               
+## [321] Microsoft Windows       GNU/Linux              
+## [323] Microsoft Windows       Microsoft Windows      
+## [325] Mac OS X                GNU/Linux              
+## [327] Microsoft Windows       GNU/Linux              
+## [329] Microsoft Windows       GNU/Linux              
+## [331] Microsoft Windows       GNU/Linux              
+## [333] Don't have a preference Mac OS X               
+## [335] GNU/Linux               Mac OS X               
+## [337] Microsoft Windows       GNU/Linux              
+## [339] Microsoft Windows       Microsoft Windows      
+## [341] Mac OS X                Microsoft Windows      
+## [343] Microsoft Windows       Microsoft Windows      
+## [345] Mac OS X                Microsoft Windows      
+## [347] Microsoft Windows       Mac OS X               
+## [349] Microsoft Windows       Microsoft Windows      
+## [351] Microsoft Windows       Microsoft Windows      
+## [353] Microsoft Windows       Don't have a preference
+## [355] Don't have a preference Microsoft Windows      
+## [357] Microsoft Windows       Microsoft Windows      
+## [359] Microsoft Windows       &lt;NA&gt;                   
+## [361] Mac OS X                Microsoft Windows      
+## [363] Mac OS X                Microsoft Windows      
+## [365] Mac OS X                Microsoft Windows      
+## [367] Microsoft Windows       GNU/Linux              
+## [369] Microsoft Windows       Mac OS X               
+## [371] Mac OS X                Microsoft Windows      
+## [373] Microsoft Windows       GNU/Linux              
+## [375] Microsoft Windows       Microsoft Windows      
+## [377] GNU/Linux               GNU/Linux              
+## [379] GNU/Linux               Microsoft Windows      
+## [381] Microsoft Windows       GNU/Linux              
+## [383] Microsoft Windows       Mac OS X               
+## [385] Don't have a preference Microsoft Windows      
+## [387] Mac OS X                Mac OS X               
+## [389] Microsoft Windows       Microsoft Windows      
+## [391] Don't have a preference Mac OS X               
+## [393] Microsoft Windows       Microsoft Windows      
+## [395] GNU/Linux               Microsoft Windows      
+## [397] Microsoft Windows       Microsoft Windows      
+## [399] Mac OS X                Mac OS X               
+## [401] Microsoft Windows       Mac OS X               
+## [403] Mac OS X                GNU/Linux              
+## [405] Microsoft Windows       GNU/Linux              
+## [407] GNU/Linux               Don't have a preference
+## [409] Mac OS X                Mac OS X               
+## [411] Mac OS X                Microsoft Windows      
+## [413] GNU/Linux               Microsoft Windows      
+## [415] Microsoft Windows       Microsoft Windows      
+## [417] GNU/Linux               Don't have a preference
+## [419] &lt;NA&gt;                    &lt;NA&gt;                   
+## [421] &lt;NA&gt;                    &lt;NA&gt;                   
+## [423] &lt;NA&gt;                    &lt;NA&gt;                   
+## [425] &lt;NA&gt;                    &lt;NA&gt;                   
+## [427] &lt;NA&gt;                    &lt;NA&gt;                   
+## [429] &lt;NA&gt;                    &lt;NA&gt;                   
+## [431] &lt;NA&gt;                    &lt;NA&gt;                   
+## [433] &lt;NA&gt;                    &lt;NA&gt;                   
+## [435] &lt;NA&gt;                    &lt;NA&gt;                   
+## [437] &lt;NA&gt;                    &lt;NA&gt;                   
+## [439] &lt;NA&gt;                    &lt;NA&gt;                   
+## [441] &lt;NA&gt;                    &lt;NA&gt;                   
+## [443] &lt;NA&gt;                    &lt;NA&gt;                   
+## [445] &lt;NA&gt;                    &lt;NA&gt;                   
+## [447] &lt;NA&gt;                    &lt;NA&gt;                   
+## [449] &lt;NA&gt;                    &lt;NA&gt;                   
+## [451] &lt;NA&gt;                    &lt;NA&gt;                   
+## [453] &lt;NA&gt;                    &lt;NA&gt;                   
+## [455] &lt;NA&gt;                    &lt;NA&gt;                   
+## [457] &lt;NA&gt;                    &lt;NA&gt;                   
+## [459] &lt;NA&gt;                    &lt;NA&gt;                   
+## [461] &lt;NA&gt;                    &lt;NA&gt;                   
+## [463] &lt;NA&gt;                    &lt;NA&gt;                   
+## [465] &lt;NA&gt;                    &lt;NA&gt;                   
+## [467] &lt;NA&gt;                    &lt;NA&gt;                   
+## [469] &lt;NA&gt;                    &lt;NA&gt;                   
+## [471] &lt;NA&gt;                    &lt;NA&gt;                   
+## [473] &lt;NA&gt;                    &lt;NA&gt;                   
+## [475] &lt;NA&gt;                    &lt;NA&gt;                   
+## [477] &lt;NA&gt;                    &lt;NA&gt;                   
+## [479] &lt;NA&gt;                    &lt;NA&gt;                   
+## [481] &lt;NA&gt;                    &lt;NA&gt;                   
+## [483] &lt;NA&gt;                    &lt;NA&gt;                   
+## [485] &lt;NA&gt;                    &lt;NA&gt;                   
+## [487] &lt;NA&gt;                    &lt;NA&gt;                   
+## [489] &lt;NA&gt;                    &lt;NA&gt;                   
+## [491] &lt;NA&gt;                    &lt;NA&gt;                   
+## [493] &lt;NA&gt;                    &lt;NA&gt;                   
+## [495] &lt;NA&gt;                    &lt;NA&gt;                   
+## [497] &lt;NA&gt;                    &lt;NA&gt;                   
+## [499] &lt;NA&gt;                    &lt;NA&gt;                   
+## [501] &lt;NA&gt;                    &lt;NA&gt;                   
+## [503] &lt;NA&gt;                    &lt;NA&gt;                   
+## [505] &lt;NA&gt;                    &lt;NA&gt;                   
+## [507] &lt;NA&gt;                    &lt;NA&gt;                   
+## [509] &lt;NA&gt;                    &lt;NA&gt;                   
+## [511] &lt;NA&gt;                    &lt;NA&gt;                   
+## [513] &lt;NA&gt;                    &lt;NA&gt;                   
+## [515] &lt;NA&gt;                    &lt;NA&gt;                   
+## [517] &lt;NA&gt;                    &lt;NA&gt;                   
+## [519] &lt;NA&gt;                    &lt;NA&gt;                   
+## [521] &lt;NA&gt;                    &lt;NA&gt;                   
+## [523] &lt;NA&gt;                    &lt;NA&gt;                   
+## [525] &lt;NA&gt;                    &lt;NA&gt;                   
+## [527] &lt;NA&gt;                    &lt;NA&gt;                   
+## [529] &lt;NA&gt;                    &lt;NA&gt;                   
+## [531] &lt;NA&gt;                    &lt;NA&gt;                   
+## [533] &lt;NA&gt;                    &lt;NA&gt;                   
+## [535] &lt;NA&gt;                    &lt;NA&gt;                   
+## [537] &lt;NA&gt;                    &lt;NA&gt;                   
+## [539] &lt;NA&gt;                    &lt;NA&gt;                   
+## [541] &lt;NA&gt;                    &lt;NA&gt;                   
+## [543] &lt;NA&gt;                    &lt;NA&gt;                   
+## [545] &lt;NA&gt;                    &lt;NA&gt;                   
+## [547] &lt;NA&gt;                    &lt;NA&gt;                   
+## [549] &lt;NA&gt;                    &lt;NA&gt;                   
+## [551] &lt;NA&gt;                    &lt;NA&gt;                   
+## [553] &lt;NA&gt;                    &lt;NA&gt;                   
+## [555] &lt;NA&gt;                    &lt;NA&gt;                   
+## [557] Mac OS X                Mac OS X               
+## [559] GNU/Linux               Mac OS X               
+## [561] Mac OS X                Mac OS X               
+## [563] &lt;NA&gt;                    Don't have a preference
+## [565] GNU/Linux               Microsoft Windows      
+## [567] GNU/Linux               GNU/Linux              
+## [569] Microsoft Windows       GNU/Linux              
+## [571] Mac OS X                Mac OS X               
+## [573] Mac OS X                Microsoft Windows      
+## [575] &lt;NA&gt;                    Microsoft Windows      
+## [577] GNU/Linux               Mac OS X               
+## [579] Microsoft Windows       GNU/Linux              
+## [581] &lt;NA&gt;                    Mac OS X               
+## [583] GNU/Linux               &lt;NA&gt;                   
+## [585] Don't have a preference GNU/Linux              
+## [587] Microsoft Windows       GNU/Linux              
+## [589] GNU/Linux               Mac OS X               
+## [591] Don't have a preference Microsoft Windows      
+## [593] Mac OS X                GNU/Linux              
+## [595] GNU/Linux               Don't have a preference
+## [597] Mac OS X                GNU/Linux              
+## [599] GNU/Linux               Microsoft Windows      
+## [601] GNU/Linux               GNU/Linux              
+## [603] Mac OS X                Don't have a preference
+## [605] Don't have a preference GNU/Linux              
+## [607] GNU/Linux               Microsoft Windows      
+## [609] GNU/Linux               Don't have a preference
+## [611] GNU/Linux               GNU/Linux              
+## [613] Mac OS X                Mac OS X               
+## [615] Don't have a preference Mac OS X               
+## [617] Don't have a preference Mac OS X               
+## [619] GNU/Linux               GNU/Linux              
+## [621] Mac OS X                Mac OS X               
+## [623] GNU/Linux               &lt;NA&gt;                   
+## [625] GNU/Linux               &lt;NA&gt;                   
+## [627] GNU/Linux               GNU/Linux              
+## [629] Mac OS X                GNU/Linux              
+## [631] Microsoft Windows       GNU/Linux              
+## [633] GNU/Linux               Microsoft Windows      
+## [635] Mac OS X                Don't have a preference
+## [637] Microsoft Windows       Microsoft Windows      
+## [639] GNU/Linux               GNU/Linux              
+## [641] Mac OS X                GNU/Linux              
+## [643] GNU/Linux               Mac OS X               
+## [645] GNU/Linux               GNU/Linux              
+## [647] Don't have a preference GNU/Linux              
+## [649] GNU/Linux               Mac OS X               
+## [651] GNU/Linux               GNU/Linux              
+## [653] GNU/Linux               GNU/Linux              
+## [655] GNU/Linux               Mac OS X               
+## [657] Microsoft Windows       Mac OS X               
+## [659] Microsoft Windows       GNU/Linux              
+## [661] Don't have a preference Mac OS X               
+## [663] GNU/Linux               Don't have a preference
+## [665] Don't have a preference GNU/Linux              
+## [667] GNU/Linux               Don't have a preference
+## [669] Don't have a preference GNU/Linux              
+## [671] Microsoft Windows       Microsoft Windows      
+## [673] GNU/Linux               GNU/Linux              
+## [675] GNU/Linux               Microsoft Windows      
+## [677] GNU/Linux               Mac OS X               
+## [679] Mac OS X                Microsoft Windows      
+## [681] Microsoft Windows       Mac OS X               
+## [683] Mac OS X                Don't have a preference
+## [685] Don't have a preference GNU/Linux              
+## [687] Don't have a preference Microsoft Windows      
+## [689] Don't have a preference Mac OS X               
+## [691] Mac OS X                GNU/Linux              
+## [693] Don't have a preference GNU/Linux              
+## [695] Mac OS X                GNU/Linux              
+## [697] GNU/Linux               GNU/Linux              
+## [699] GNU/Linux              
+## 4 Levels: GNU/Linux Don't have a preference ... Microsoft Windows</code></pre>
 </div>
 <div id="write-cleaned-df" class="section level2">
 <h2>Write cleaned df</h2>
