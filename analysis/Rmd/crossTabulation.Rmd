@@ -11,6 +11,11 @@ output:
         md_extensions: -autolink_bare_uris+hard_line_breaks
 ---
 
+```{r package_options, include=FALSE}
+options(knitr.table.format = 'markdown')
+```
+
+
 ```{r echo=FALSE, eval=FALSE}
 # Setting up the directory
 (WD <- getwd())
@@ -208,7 +213,7 @@ The first interest is to know if people use software for their research. Over ou
 
 ```{r fig.width = 20, fig.height=10, echo=FALSE}
 	sumQ  <- singleTabFreq(df$Q.6.Use.Software, 'Use of Software')
-	kable(sumQ, digits=2)
+	kable(sumQ, digits=2, format = 'markdown')
 	plotSingleFreq(sumQ, 'Use of Software')
 ```
 
@@ -238,7 +243,7 @@ The possible answers were as follow
 
 ```{r fig.width = 20, fig.height=10, echo=FALSE}
 	sumQ  <-  singleTabFreq(dfYES$Q.7.Importance.Software, 'Importance of Software')
-	kable(sumQ, digits=2)
+	kable(sumQ, digits=2, format = 'markdown')
 	plotSingleFreq(sumQ, 'Importance of Software')
 ```
 

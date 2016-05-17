@@ -20,6 +20,9 @@ Olivier PHILIPPE
 
 
 
+
+
+
 # Introduction
 This survey aims to give a broad picture of research software use and practice within the Research communities in United-Kingdom. 
 
@@ -55,11 +58,11 @@ Therefore, the first variables we are going to visualise are these three variabl
 The first interest is to know if people use software for their research. Over our sample of 406 respondents (after data cleaning), 372 of them use a software for their research (92%). 
 
 
-     Use of Software    Total Respondents   Percent
----  ----------------  ------------------  --------
-2    No                                37         5
-1    NA                               138        20
-3    Yes                              523        75
+|   |Use of Software | Total Respondents| Percent|
+|:--|:---------------|-----------------:|-------:|
+|2  |No              |                37|       5|
+|1  |NA              |               138|      20|
+|3  |Yes             |               523|      75|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
@@ -79,11 +82,11 @@ The possible answers were as follow
 
 
 
-     Importance of Software    Total Respondents   Percent
----  -----------------------  ------------------  --------
-1    No Difference                            13         2
-3    More effort                              96        18
-2    Not be Practical                        413        79
+|   |Importance of Software | Total Respondents| Percent|
+|:--|:----------------------|-----------------:|-------:|
+|1  |No Difference          |                13|       2|
+|3  |More effort            |                96|      18|
+|2  |Not be Practical       |               413|      79|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
@@ -94,10 +97,10 @@ into two categories "Essential", including the category "No practical" and the o
 
 
 
-Software Essential for research    Total Respondents   Percent
---------------------------------  ------------------  --------
-No-Essential                                     109        21
-Essential                                        413        79
+|Software Essential for research | Total Respondents| Percent|
+|:-------------------------------|-----------------:|-------:|
+|No-Essential                    |               109|      21|
+|Essential                       |               413|      79|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
@@ -107,10 +110,10 @@ It’s not just proprietary software, many researchers are developing their own 
 
 
 
-Developing Software    Total Respondents   Percent
---------------------  ------------------  --------
-No                                   164        31
-Yes                                  359        69
+|Developing Software | Total Respondents| Percent|
+|:-------------------|-----------------:|-------:|
+|No                  |               164|      31|
+|Yes                 |               359|      69|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
@@ -118,12 +121,12 @@ Yes                                  359        69
 
 
 
-     Training in Software development    Total Respondents   Percent
----  ---------------------------------  ------------------  --------
-4    Taught                                             81        15
-3    Self-taugh+Taught                                 118        23
-2    Self-Taught                                       144        28
-1    No                                                180        34
+|   |Training in Software development | Total Respondents| Percent|
+|:--|:--------------------------------|-----------------:|-------:|
+|4  |Taught                           |                81|      15|
+|3  |Self-taugh+Taught                |               118|      23|
+|2  |Self-Taught                      |               144|      28|
+|1  |No                               |               180|      34|
 
 ```
 ## [1] Taught            Self-taugh+Taught Self-Taught       No               
@@ -142,12 +145,12 @@ Yes                                  359        69
 
 
 
-     Training in Software development    Total Respondents   Percent
----  ---------------------------------  ------------------  --------
-1    No                                                 59        16
-4    Taught                                             68        19
-3    Self-taugh+Taught                                 108        30
-2    Self-Taught                                       124        35
+|   |Training in Software development | Total Respondents| Percent|
+|:--|:--------------------------------|-----------------:|-------:|
+|1  |No                               |                59|      16|
+|4  |Taught                           |                68|      19|
+|3  |Self-taugh+Taught                |               108|      30|
+|2  |Self-Taught                      |               124|      35|
 
 ```
 ## Warning in if (is.na(ownColour) == FALSE) {: the condition has length > 1
@@ -182,19 +185,19 @@ This question is a multiple choice with the following categories:
 If we output the frequency of distribution we obtain the following table.
 
 
-     Discipline                                           Total Respondents   Percent
----  --------------------------------------------------  ------------------  --------
-5    Design, creative & performing arts                                   2         0
-10   None of the above                                                    4         1
-3    Architecture & planning                                              5         1
-1    Administrative & business studies                                    8         2
-2    Agriculture, forestry & veterinary science                           8         2
-6    Education                                                            9         2
-8    Humanities & language based studies & archaeology                   25         5
-11   Social studies                                                      44         8
-9    Medicine, dentistry & health                                        58        11
-7    Engineering & technology                                           111        21
-4    Biological, mathematical & physical sciences                       249        48
+|   |Discipline                                        | Total Respondents| Percent|
+|:--|:-------------------------------------------------|-----------------:|-------:|
+|5  |Design, creative & performing arts                |                 2|       0|
+|10 |None of the above                                 |                 4|       1|
+|3  |Architecture & planning                           |                 5|       1|
+|1  |Administrative & business studies                 |                 8|       2|
+|2  |Agriculture, forestry & veterinary science        |                 8|       2|
+|6  |Education                                         |                 9|       2|
+|8  |Humanities & language based studies & archaeology |                25|       5|
+|11 |Social studies                                    |                44|       8|
+|9  |Medicine, dentistry & health                      |                58|      11|
+|7  |Engineering & technology                          |               111|      21|
+|4  |Biological, mathematical & physical sciences      |               249|      48|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
@@ -210,14 +213,14 @@ We decided to merge the following categories based on the low level of each and 
 Then the distribution table seems more usable even if we probably make more academics angry at this point. 
 
 
-Modified Disciplines                            Total Respondents   Percent
----------------------------------------------  ------------------  --------
-None of the above                                               4         1
-Design+Art+Hum                                                 32         6
-Admin+Social+Edu                                               61        12
-Medicine+Agri                                                  66        13
-Engineering & technology                                      111        21
-Biological, mathematical & physical sciences                  249        48
+|Modified Disciplines                         | Total Respondents| Percent|
+|:--------------------------------------------|-----------------:|-------:|
+|None of the above                            |                 4|       1|
+|Design+Art+Hum                               |                32|       6|
+|Admin+Social+Edu                             |                61|      12|
+|Medicine+Agri                                |                66|      13|
+|Engineering & technology                     |               111|      21|
+|Biological, mathematical & physical sciences |               249|      48|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
@@ -241,39 +244,39 @@ The questions 4 about the funds already been cleaned up during the previous proc
 The frequencies distribution is showed on the following table and plot. We can see that there is a high representation of people from EPSRC in the sample (23%).
 
 
-Funds                                                             Total Respondents   Percent
----------------------------------------------------------------  ------------------  --------
-DEL                                                                               1         0
-Google                                                                            1         0
-I am not in the UK                                                                1         0
-I'm not in the UK                                                                 1         0
-Iraq Ministry of Higher Education                                                 1         0
-KTP                                                                               1         0
-Me                                                                                1         0
-No funding                                                                        1         0
-Not applicable                                                                    1         0
-not UK                                                                            1         0
-Queen Mary University of London                                                   1         0
-School                                                                            1         0
-Self funded                                                                       3         1
-Leverhulme Trust                                                                  6         1
-Non-UK Gov                                                                        6         1
-AHRC - Arts and Humanities Research Council                                       7         2
-Insufficient information                                                          8         2
-Other UK Gov                                                                      8         2
-Wellcome Trust                                                                   13         3
-National Institute for Health Research                                           14         3
-Industry                                                                         16         4
-STFC - Science and Technology Facilities Council                                 17         4
-BBSRC - Biotechnology and Biological Sciences Research Council                   18         4
-NERC - Natural Environment Research Council                                      21         5
-Other charity or fundation                                                       22         5
-MRC - Medical Research Council                                                   23         5
-ESRC - Economic and Social Research Council                                      29         7
-Don't know                                                                       32         7
-Europe                                                                           34         8
-University central funds                                                         49        11
-EPSRC - Engineering and Physical Sciences Research Council                      107        24
+|Funds                                                          | Total Respondents| Percent|
+|:--------------------------------------------------------------|-----------------:|-------:|
+|DEL                                                            |                 1|       0|
+|Google                                                         |                 1|       0|
+|I am not in the UK                                             |                 1|       0|
+|I'm not in the UK                                              |                 1|       0|
+|Iraq Ministry of Higher Education                              |                 1|       0|
+|KTP                                                            |                 1|       0|
+|Me                                                             |                 1|       0|
+|No funding                                                     |                 1|       0|
+|Not applicable                                                 |                 1|       0|
+|not UK                                                         |                 1|       0|
+|Queen Mary University of London                                |                 1|       0|
+|School                                                         |                 1|       0|
+|Self funded                                                    |                 3|       1|
+|Leverhulme Trust                                               |                 6|       1|
+|Non-UK Gov                                                     |                 6|       1|
+|AHRC - Arts and Humanities Research Council                    |                 7|       2|
+|Insufficient information                                       |                 8|       2|
+|Other UK Gov                                                   |                 8|       2|
+|Wellcome Trust                                                 |                13|       3|
+|National Institute for Health Research                         |                14|       3|
+|Industry                                                       |                16|       4|
+|STFC - Science and Technology Facilities Council               |                17|       4|
+|BBSRC - Biotechnology and Biological Sciences Research Council |                18|       4|
+|NERC - Natural Environment Research Council                    |                21|       5|
+|Other charity or fundation                                     |                22|       5|
+|MRC - Medical Research Council                                 |                23|       5|
+|ESRC - Economic and Social Research Council                    |                29|       7|
+|Don't know                                                     |                32|       7|
+|Europe                                                         |                34|       8|
+|University central funds                                       |                49|      11|
+|EPSRC - Engineering and Physical Sciences Research Council     |               107|      24|
 
 The number of categories for this variable is too big to apply a pertinent comparison between them. We decide to recode the 20 categories into 7. 
 
@@ -290,26 +293,26 @@ These categories represents a meta-categories of units. They were build under a 
 
 
 
-Modified Funds                                      Total Respondents   Percent
--------------------------------------------------  ------------------  --------
-Not applicable                                                      1         0
-not UK                                                              1         0
-Queen Mary University of London                                     1         0
-School                                                              1         0
-Self funded                                                         3         1
-Non-UK Gov                                                          6         1
-Charity/Trust                                                       8         2
-Other UK Gov                                                        8         2
-Wellcome Trust                                                     13         3
-Other UK                                                           17         4
-STFC - Science and Technology Facilities Council                   17         4
-NERC - Natural Environment Research Council                        21         5
-Other charity or fundation                                         22         5
-None                                                               26         6
-Other Non-UK                                                       30         7
-Europe                                                             34         8
-University central funds                                           49        11
-Research Council                                                  187        42
+|Modified Funds                                   | Total Respondents| Percent|
+|:------------------------------------------------|-----------------:|-------:|
+|Not applicable                                   |                 1|       0|
+|not UK                                           |                 1|       0|
+|Queen Mary University of London                  |                 1|       0|
+|School                                           |                 1|       0|
+|Self funded                                      |                 3|       1|
+|Non-UK Gov                                       |                 6|       1|
+|Charity/Trust                                    |                 8|       2|
+|Other UK Gov                                     |                 8|       2|
+|Wellcome Trust                                   |                13|       3|
+|Other UK                                         |                17|       4|
+|STFC - Science and Technology Facilities Council |                17|       4|
+|NERC - Natural Environment Research Council      |                21|       5|
+|Other charity or fundation                       |                22|       5|
+|None                                             |                26|       6|
+|Other Non-UK                                     |                30|       7|
+|Europe                                           |                34|       8|
+|University central funds                         |                49|      11|
+|Research Council                                 |               187|      42|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
     
@@ -342,14 +345,14 @@ We need to recode the levels of the factor for later graphics
 And now to visualise the repartition of our sample within the Seniority variable.
 
 
-Seniority             Total Respondents   Percent
--------------------  ------------------  --------
-Less than a year                     14         3
-1-5 years                           166        32
-6-10 years                          139        27
-11-15 years                          75        14
-15-20 years                          44         8
-More than 20 years                   83        16
+|Seniority          | Total Respondents| Percent|
+|:------------------|-----------------:|-------:|
+|Less than a year   |                14|       3|
+|1-5 years          |               166|      32|
+|6-10 years         |               139|      27|
+|11-15 years        |                75|      14|
+|15-20 years        |                44|       8|
+|More than 20 years |                83|      16|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
@@ -366,13 +369,13 @@ More than 20 years                   83        16
 ## Gender
 
 
-     Gender     Total Respondents   Percent
----  --------  ------------------  --------
-2    Gnuplot                    1         0
-5    Other                      3         1
-4    NA                        10         2
-1    Female                   161        31
-3    Male                     342        66
+|   |Gender  | Total Respondents| Percent|
+|:--|:-------|-----------------:|-------:|
+|2  |Gnuplot |                 1|       0|
+|5  |Other   |                 3|       1|
+|4  |NA      |                10|       2|
+|1  |Female  |               161|      31|
+|3  |Male    |               342|      66|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
@@ -392,17 +395,17 @@ More than 20 years                   83        16
 
 
 
-     Operating System                                                                      Total Respondents   Percent
----  -----------------------------------------------------------------------------------  ------------------  --------
-1    Desktop: OSX, Servers: GNU/Linux, Phone: Android, Gaming machine: Windows                             1         0
-3    Linux and Mac OS X                                                                                    1         0
-5    Male                                                                                                  1         0
-8    Used to Windows, but am switching more and more to Linux (especially for research)                    1         0
-9    VMS                                                                                                   1         0
-7    NA                                                                                                   60        12
-4    Mac OS X                                                                                            126        24
-2    Linux                                                                                               140        27
-6    Microsoft Windows                                                                                   187        36
+|   |Operating System                                                                   | Total Respondents| Percent|
+|:--|:----------------------------------------------------------------------------------|-----------------:|-------:|
+|1  |Desktop: OSX, Servers: GNU/Linux, Phone: Android, Gaming machine: Windows          |                 1|       0|
+|3  |Linux and Mac OS X                                                                 |                 1|       0|
+|5  |Male                                                                               |                 1|       0|
+|8  |Used to Windows, but am switching more and more to Linux (especially for research) |                 1|       0|
+|9  |VMS                                                                                |                 1|       0|
+|7  |NA                                                                                 |                60|      12|
+|4  |Mac OS X                                                                           |               126|      24|
+|2  |Linux                                                                              |               140|      27|
+|6  |Microsoft Windows                                                                  |               187|      36|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 ### Importance of software per Operating System
