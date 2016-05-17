@@ -20,7 +20,7 @@ Not all questions require cleaning.
 Script
 ----------------
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 	# Setup the directory
 	(WD <- getwd())
 	if (!is.null(WD)) setwd(WD)
@@ -309,7 +309,8 @@ Extra Question 2
 Recoding Prefer not to say as NA
 ```{r}
 	df$E.2.Gender.clean <- df$E.2.Gender
-	df$E.2.Gender.clean[df$E.2.Gender == 'Prefer not to say'] <- NA
+	levels(df$E.2.Gender.clean)[levels(df$E.2.Gender.clean) == 'Prefer not to say'] <- NA
+    levels(df$E.2.Gender.clean)[levels(df$E.2.Gender.clean) == ' Gnuplot'] <- NA
 
 ```
 
@@ -320,11 +321,10 @@ Extra Question 3
 ```{r}
     common_os <- c('GNU/Linux', 'Microsoft Windows', 'Mac OS X', 'Others', 'Don\'t have a preference')
 	df$E.4.OS.clean <- as.factor(df$E.4.OS)
-	levels(df$E.4.OS.clean)
 	levels(df$E.4.OS.clean)[levels(df$E.4.OS.clean) == 'Any Unix based'] <- 'GNU/Linux'
 	levels(df$E.4.OS.clean)[levels(df$E.4.OS.clean) == 'Linux'] <- 'GNU/Linux'
 	levels(df$E.4.OS.clean)[!(levels(df$E.4.OS.clean) %in% common_os)] <- NA
-	droplevels(df$E.4.OS.clean)
+	#droplevels(df$E.4.OS.clean)
 ```
 
 Write cleaned df

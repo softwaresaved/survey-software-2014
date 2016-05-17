@@ -352,13 +352,12 @@ And now to visualise the repartition of our sample within the Seniority variable
 ## Gender
 
 
-|   |Gender  | Total Respondents| Percent|
-|:--|:-------|-----------------:|-------:|
-|2  |Gnuplot |                 1|       0|
-|5  |Other   |                 3|       1|
-|4  |NA      |                10|       2|
-|1  |Female  |               161|      31|
-|3  |Male    |               342|      66|
+|   |Gender | Total Respondents| Percent|
+|:--|:------|-----------------:|-------:|
+|4  |Other  |                 3|       1|
+|3  |NA     |                11|       2|
+|1  |Female |               161|      31|
+|2  |Male   |               342|      66|
 
 ![](crossTabulation_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
