@@ -304,12 +304,6 @@ It’s not just proprietary software, many researchers are developing their own 
 
 ### Disciplines
 
-This question is a multiple choice with the following categories:
-
-```{r echo=FALSE}
-    levels(factor(dfYES$Q.3.Discipline))
-```
-
 If we output the frequency of distribution we obtain the following table.
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
@@ -410,7 +404,7 @@ These categories represents a meta-categories of units. They were build under a 
     sumQ <- singleTabFreq(dfYES$Q.4.Modified.Funds,'Modified Funds')
     #Printing table
     kable(sumQ, digits=2, row.names = FALSE)
-    plotSingleFreq(sumQ, 'Modified Funds')
+    plotSingleFreq(sumQ, 'Modified Funds', xText = FALSE)
 ```
     
 We have two types of researcher funding in our sample, one type that is funded by a Research council (52%) and one half with other type of funding. We keep or current categorisation for further analysis. 
