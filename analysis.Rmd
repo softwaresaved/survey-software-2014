@@ -3,12 +3,12 @@ title: 'Exploring data-set: Categorical Analysis'
 author: "Olivier PHILIPPE"
 date: "26 June 2015"
 output:
-html_document:
-keep_md: yes
-number_sections: yes
-toc_depth: 4
-github_document:
-md_extensions: -autolink_bare_uris+hard_line_breaks
+    html_document:
+        keep_md: yes
+        number_sections: yes
+        toc_depth: 4
+    github_document:
+        md_extensions: -autolink_bare_uris+hard_line_breaks
 ---
 
 ```{r package_options, include=FALSE}

@@ -27,11 +27,12 @@ Olivier PHILIPPE
 This survey aims to give a broad picture of research software use and practice within the Research communities in United-Kingdom. 
 
 ## Data Collection
-The survey contacted 1,000 randomly selected researchers at each of 15 Russell Group universities by email. From the 15,000 invitations to complete the survey, we received 417 responses – a rate of 3% which is fairly normal for a blind survey. 
+
+The survey contacted 1,000 randomly selected researchers at each of 15 Russell Group universities by email. From this 15,000 invitations to complete the survey, we received 417 responses – a rate of 3% which is a little bit low for a blind survey but can still gives us an idea. 
 
 We asked people specifically about “research software” which we defined as:
 
-    >Software that is used to generate, process or analyse results that you intend to appear in a publication (either in a journal, conference paper, monograph, book or thesis). Research software can be anything from a few lines of code written by yourself, to a professionally developed software package. Software that does not generate, process or analyse results - such as word processing software, or the use of a web search - does not count as ‘research software’ for the purposes of this survey.
+>Software that is used to generate, process or analyse results that you intend to appear in a publication (either in a journal, conference paper, monograph, book or thesis). Research software can be anything from a few lines of code written by yourself, to a professionally developed software package. Software that does not generate, process or analyse results - such as word processing software, or the use of a web search - does not count as ‘research software’ for the purposes of this survey.
 
 The responses were collected with Google Forms. 
 The data collected during this survey is available for download from Zenodo, as well as the entire code source of the data cleansing and data analysis. It is licensed under a Creative Commons by Attribution licence (attribution to The University of Edinburgh on behalf of the Software Sustainability Institute).
@@ -298,7 +299,7 @@ These categories represents a meta-categories of units. They were build under a 
 |Research Council                                 |               187|      42|
 
 ![](analysis_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
-    
+
 We have two types of researcher funding in our sample, one type that is funded by a Research council (52%) and one half with other type of funding. We keep or current categorisation for further analysis. 
 
 ### Importance of software per funding origin
