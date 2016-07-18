@@ -19,7 +19,7 @@ options(knitr.table.format = 'markdown')
 ```{r echo=FALSE, eval=FALSE}
 # Setting up the directory
 (WD <- getwd())
-if (!is.null(WD)) setwd(WD)
+if (!is.null(WD)) setwd(dirname(sys.frame(1)$ofile))
 ```
 
 ```{r echo=FALSE}
