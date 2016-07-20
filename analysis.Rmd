@@ -222,7 +222,8 @@ Knowing that only 8% do not use software for research, and as the main point is 
 
 ```{r echo=FALSE}
 # subsetting the dataset to contain only software users, meaning people who answered YES at the question 6
-dfYES <- df[which(df$Q.6.Use.Software=='Yes'),]
+dfYES <- df
+# dfYES <- df[which(df$Q.6.Use.Software=='Yes'),]  ## Not filtering them in order to get the same results as Simon with its first xls analysis
 dfYES <- droplevels(dfYES)
 ```
 
@@ -537,3 +538,4 @@ facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.8.Developing.Software')
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 sumQ  <- crossTabFreq(dfYES, 'E.4.OS.clean', 'Q.9.Training.Software.clean') 
 facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.9.Training.Software.clean')
+

@@ -85,9 +85,10 @@ The possible answers were as follow
 
 |   |Importance of Software | Total Respondents| Percent|
 |:--|:----------------------|-----------------:|-------:|
-|1  |No Difference          |                13|       2|
-|3  |More effort            |                96|      18|
-|2  |Not be Practical       |               413|      79|
+|1  |No Difference          |                47|       7|
+|3  |More effort            |                98|      14|
+|4  |NA                     |               138|      20|
+|2  |Not be Practical       |               413|      59|
 
 ![](analysis_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
@@ -98,10 +99,11 @@ into two categories "Essential", including the category "No practical" and the o
 
 
 
-|Software Essential for research | Total Respondents| Percent|
-|:-------------------------------|-----------------:|-------:|
-|No-Essential                    |               109|      21|
-|Essential                       |               413|      79|
+|   |Software Essential for research | Total Respondents| Percent|
+|:--|:-------------------------------|-----------------:|-------:|
+|3  |NA                              |               138|      20|
+|1  |No-Essential                    |               145|      21|
+|2  |Essential                       |               413|      59|
 
 ![](analysis_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
@@ -113,8 +115,9 @@ It’s not just proprietary software, many researchers are developing their own 
 
 |Developing Software | Total Respondents| Percent|
 |:-------------------|-----------------:|-------:|
-|No                  |               164|      31|
-|Yes                 |               359|      69|
+|NA                  |               138|      20|
+|No                  |               198|      28|
+|Yes                 |               362|      52|
 
 ![](analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
@@ -124,14 +127,16 @@ It’s not just proprietary software, many researchers are developing their own 
 
 |   |Training in Software development | Total Respondents| Percent|
 |:--|:--------------------------------|-----------------:|-------:|
-|4  |Taught                           |                81|      15|
-|3  |Self-taugh+Taught                |               118|      23|
-|2  |Self-Taught                      |               144|      28|
-|1  |No                               |               180|      34|
+|5  |Taught                           |                85|      12|
+|4  |Self-taugh+Taught                |               120|      17|
+|1  |NA                               |               139|      20|
+|3  |Self-Taught                      |               150|      21|
+|2  |No                               |               205|      29|
 
 ```
-## [1] Taught            Self-taugh+Taught Self-Taught       No               
-## Levels: Taught < Self-taugh+Taught < Self-Taught < No
+## [1] Taught            Self-taugh+Taught NA                Self-Taught      
+## [5] No               
+## Levels: Taught < Self-taugh+Taught < NA < Self-Taught < No
 ```
 
 ```
@@ -148,10 +153,11 @@ It’s not just proprietary software, many researchers are developing their own 
 
 |   |Training in Software development | Total Respondents| Percent|
 |:--|:--------------------------------|-----------------:|-------:|
-|1  |No                               |                59|      16|
-|4  |Taught                           |                68|      19|
-|3  |Self-taugh+Taught                |               108|      30|
-|2  |Self-Taught                      |               124|      35|
+|1  |NA                               |                 0|       0|
+|2  |No                               |                60|      17|
+|5  |Taught                           |                68|      19|
+|4  |Self-taugh+Taught                |               108|      30|
+|3  |Self-Taught                      |               126|      35|
 
 ```
 ## Warning in if (is.na(ownColour) == FALSE) {: the condition has length > 1
@@ -172,16 +178,17 @@ If we output the frequency of distribution we obtain the following table.
 |   |Discipline                                        | Total Respondents| Percent|
 |:--|:-------------------------------------------------|-----------------:|-------:|
 |5  |Design, creative & performing arts                |                 2|       0|
-|10 |None of the above                                 |                 4|       1|
-|3  |Architecture & planning                           |                 5|       1|
-|1  |Administrative & business studies                 |                 8|       2|
-|2  |Agriculture, forestry & veterinary science        |                 8|       2|
-|6  |Education                                         |                 9|       2|
-|8  |Humanities & language based studies & archaeology |                25|       5|
-|11 |Social studies                                    |                44|       8|
-|9  |Medicine, dentistry & health                      |                58|      11|
-|7  |Engineering & technology                          |               111|      21|
-|4  |Biological, mathematical & physical sciences      |               249|      48|
+|11 |None of the above                                 |                 4|       1|
+|3  |Architecture & planning                           |                 6|       1|
+|1  |Administrative & business studies                 |                 8|       1|
+|2  |Agriculture, forestry & veterinary science        |                 8|       1|
+|6  |Education                                         |                 9|       1|
+|8  |Humanities & language based studies & archaeology |                42|       6|
+|12 |Social studies                                    |                51|       7|
+|9  |Medicine, dentistry & health                      |                60|       9|
+|7  |Engineering & technology                          |               114|      16|
+|10 |NA                                                |               138|      20|
+|4  |Biological, mathematical & physical sciences      |               256|      37|
 
 ![](analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
@@ -200,11 +207,12 @@ Then the distribution table seems more usable even if we probably make more acad
 |Modified Disciplines                         | Total Respondents| Percent|
 |:--------------------------------------------|-----------------:|-------:|
 |None of the above                            |                 4|       1|
-|Design+Art+Hum                               |                32|       6|
-|Admin+Social+Edu                             |                61|      12|
-|Medicine+Agri                                |                66|      13|
-|Engineering & technology                     |               111|      21|
-|Biological, mathematical & physical sciences |               249|      48|
+|Design+Art+Hum                               |                50|       7|
+|Admin+Social+Edu                             |                68|      10|
+|Medicine+Agri                                |                68|      10|
+|Engineering & technology                     |               114|      16|
+|NA                                           |               138|      20|
+|Biological, mathematical & physical sciences |               256|      37|
 
 ![](analysis_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
@@ -237,30 +245,31 @@ The frequencies distribution is showed on the following table and plot. We can s
 |Iraq Ministry of Higher Education                              |                 1|       0|
 |KTP                                                            |                 1|       0|
 |Me                                                             |                 1|       0|
-|No funding                                                     |                 1|       0|
 |Not applicable                                                 |                 1|       0|
 |not UK                                                         |                 1|       0|
 |Queen Mary University of London                                |                 1|       0|
 |School                                                         |                 1|       0|
-|Self funded                                                    |                 3|       1|
+|No funding                                                     |                 2|       0|
+|Self funded                                                    |                 3|       0|
 |Leverhulme Trust                                               |                 6|       1|
 |Non-UK Gov                                                     |                 6|       1|
-|AHRC - Arts and Humanities Research Council                    |                 7|       2|
-|Insufficient information                                       |                 8|       2|
-|Other UK Gov                                                   |                 8|       2|
-|Wellcome Trust                                                 |                13|       3|
-|National Institute for Health Research                         |                14|       3|
-|Industry                                                       |                16|       4|
-|STFC - Science and Technology Facilities Council               |                17|       4|
-|BBSRC - Biotechnology and Biological Sciences Research Council |                18|       4|
-|NERC - Natural Environment Research Council                    |                21|       5|
-|Other charity or fundation                                     |                22|       5|
-|MRC - Medical Research Council                                 |                23|       5|
-|ESRC - Economic and Social Research Council                    |                29|       7|
-|Don't know                                                     |                32|       7|
-|Europe                                                         |                34|       8|
-|University central funds                                       |                49|      11|
-|EPSRC - Engineering and Physical Sciences Research Council     |               107|      24|
+|Insufficient information                                       |                10|       2|
+|Other UK Gov                                                   |                10|       2|
+|AHRC - Arts and Humanities Research Council                    |                11|       2|
+|Wellcome Trust                                                 |                14|       2|
+|National Institute for Health Research                         |                15|       2|
+|Industry                                                       |                17|       3|
+|STFC - Science and Technology Facilities Council               |                18|       3|
+|BBSRC - Biotechnology and Biological Sciences Research Council |                19|       3|
+|NERC - Natural Environment Research Council                    |                21|       3|
+|MRC - Medical Research Council                                 |                24|       4|
+|Other charity or fundation                                     |                24|       4|
+|ESRC - Economic and Social Research Council                    |                31|       5|
+|Don't know                                                     |                36|       6|
+|Europe                                                         |                36|       6|
+|University central funds                                       |                56|       9|
+|EPSRC - Engineering and Physical Sciences Research Council     |               110|      18|
+|NA                                                             |               138|      22|
 
 The number of categories for this variable is too big to apply a pertinent comparison between them. We decide to recode the 20 categories into 7. 
 
@@ -283,20 +292,21 @@ These categories represents a meta-categories of units. They were build under a 
 |not UK                                           |                 1|       0|
 |Queen Mary University of London                  |                 1|       0|
 |School                                           |                 1|       0|
-|Self funded                                      |                 3|       1|
+|No funding                                       |                 2|       0|
+|Self funded                                      |                 3|       0|
 |Non-UK Gov                                       |                 6|       1|
-|Charity/Trust                                    |                 8|       2|
-|Other UK Gov                                     |                 8|       2|
-|Wellcome Trust                                   |                13|       3|
-|Other UK                                         |                17|       4|
-|STFC - Science and Technology Facilities Council |                17|       4|
-|NERC - Natural Environment Research Council      |                21|       5|
-|Other charity or fundation                       |                22|       5|
-|None                                             |                26|       6|
-|Other Non-UK                                     |                30|       7|
-|Europe                                           |                34|       8|
-|University central funds                         |                49|      11|
-|Research Council                                 |               187|      42|
+|Other UK Gov                                     |                10|       2|
+|Wellcome Trust                                   |                14|       2|
+|National Institute for Health Research           |                15|       2|
+|Other UK                                         |                18|       3|
+|STFC - Science and Technology Facilities Council |                18|       3|
+|Other charity or fundation                       |                24|       4|
+|None                                             |                27|       4|
+|Charity/Trust                                    |                28|       5|
+|Other Non-UK                                     |                32|       5|
+|Europe                                           |                36|       6|
+|University central funds                         |                56|       9|
+|Research Council                                 |               325|      53|
 
 ![](analysis_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
@@ -331,12 +341,12 @@ And now to visualise the repartition of our sample within the Seniority variable
 
 |Seniority          | Total Respondents| Percent|
 |:------------------|-----------------:|-------:|
-|Less than a year   |                14|       3|
-|1-5 years          |               166|      32|
-|6-10 years         |               139|      27|
-|11-15 years        |                75|      14|
-|15-20 years        |                44|       8|
-|More than 20 years |                83|      16|
+|Less than a year   |                15|       3|
+|1-5 years          |               181|      32|
+|6-10 years         |               141|      25|
+|11-15 years        |                78|      14|
+|15-20 years        |                49|       9|
+|More than 20 years |                93|      17|
 
 ![](analysis_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
@@ -355,10 +365,10 @@ And now to visualise the repartition of our sample within the Seniority variable
 
 |   |Gender | Total Respondents| Percent|
 |:--|:------|-----------------:|-------:|
-|4  |Other  |                 3|       1|
-|3  |NA     |                11|       2|
-|1  |Female |               161|      31|
-|2  |Male   |               342|      66|
+|4  |Other  |                 3|       0|
+|3  |NA     |               149|      22|
+|1  |Female |               174|      25|
+|2  |Male   |               366|      53|
 
 ![](analysis_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
@@ -380,11 +390,11 @@ And now to visualise the repartition of our sample within the Seniority variable
 
 |   |Operating System        | Total Respondents| Percent|
 |:--|:-----------------------|-----------------:|-------:|
-|5  |NA                      |                11|       2|
-|1  |Don't have a preference |                59|      11|
-|3  |Mac OS X                |               126|      24|
-|2  |GNU/Linux               |               140|      27|
-|4  |Microsoft Windows       |               187|      36|
+|1  |Don't have a preference |                62|       9|
+|3  |Mac OS X                |               134|      19|
+|2  |GNU/Linux               |               142|      20|
+|5  |NA                      |               151|      22|
+|4  |Microsoft Windows       |               210|      30|
 
 ![](analysis_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 ### Importance of software per Operating System

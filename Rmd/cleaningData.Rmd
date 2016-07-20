@@ -24,14 +24,14 @@ Script
 	# Setup the directory
 	(WD <- getwd())
 	if (!is.null(WD)) setwd(WD)
-    rm(WD)
+    setwd('~/git/ssi/software-survey-2014/')
 ```
 
 Read anonymised data into data frame
 
 ```{r}
 	# Want to load the data as factor because it makes the manipulation easier.
-    df <- read.csv("../data/mergedDf.csv")
+    df <- read.csv("./data/mergedDf.csv")
 ```
 
 
@@ -52,10 +52,8 @@ Remove rows that relate to information that is from universities that were not p
 
 
 
-
 Question 1
 ----------
-
 Correcting misspellings first.
 
 ```{r}
