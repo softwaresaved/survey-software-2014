@@ -106,5 +106,5 @@ Write data frames to CSVs
 	write.csv(mergedDf,"../data/mergedDf.csv", row.names=FALSE)
     write.csv(dfPetitionAnon, '../data/PetitionAnon.csv', row.names = FALSE)
     write.csv(dfSurveyAnon, '../data/SurveyAnon.csv', row.names = FALSE)
-    write.csv(dfPhDAnon, '../data/PhDAnon.csv', row.names = FALSE)
+    write.csv(dfPhdAnon, '../data/PhdAnon.csv', row.names = FALSE)
 ```
