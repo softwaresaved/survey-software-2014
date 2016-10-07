@@ -104,4 +104,7 @@ Write data frames to CSVs
 	# write.csv(data_with_personal_data,"mergedDF.csv", row.names=FALSE)
 	#Anonymised data to CSV (row.names=FALSE stops that column from being written to the CSV)
 	write.csv(mergedDf,"../data/mergedDf.csv", row.names=FALSE)
+    write.csv(dfPetitionAnon, '../data/PetitionAnon.csv', row.names = FALSE)
+    write.csv(dfSurveyAnon, '../data/SurveyAnon.csv', row.names = FALSE)
+    write.csv(dfPhDAnon, '../data/PhDAnon.csv', row.names = FALSE)
 ```
