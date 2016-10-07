@@ -39,9 +39,9 @@ Remove rows that relate to information that is from universities that were not p
 ```{r echo=FALSE}
 	#We identify the rows that `we want to delete, then inverting this (using the ! operator) and output the inverted results as the new "data" data frame.
 	#Remove Respondent_ID 1 the results of which are NA
-	df <- df[!is.na(df$Timestamp),]
+    df <- df[-1, ]
 	#Remove Respondent_ID 107 which relates to test df
-	df <- df[!df$Q.1.Institution == 'Test',]
+	df <- df[-which(df$Q.1.Institution == 'Test'), ]
 	#Remove rows that relate to people based at universities that were not part of the 15 universities surveyed in this study
 	#df<-df[(!df$Q.1.Institution=="Univeristy of Ulster") & (!df$Q.1.Institution=="University of Oxford") & (!df$Q.1.Institution=="Keele University") & (!df$Q.1.Institution=="University of London"),]
 
@@ -299,7 +299,7 @@ There is one "Fellow" in the job titles. There's insufficient df to understand w
 ```{r}
 	df$E.1.Job.Title.clean[df$E.1.Job_title == "Fellow"] <- "Insufficient data provided"
 ```
-
+x
 Extra Question 2
 ----------------
 
