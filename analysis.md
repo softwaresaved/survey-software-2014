@@ -39,6 +39,12 @@ The data collected during this survey is available for download from Zenodo, as 
 
 
 
+```
+##     dataOrigin 
+##  NA      :138  
+##  petition:143  
+##  survey  :418
+```
 However, the question 6 asked if the participant uses, or not, a software for his research. Considering that people who are not using any software fall out of our category of interest, 
 we removed them from the dataset and only perform analysis on the filtered data. 
 

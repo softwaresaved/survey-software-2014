@@ -34,7 +34,6 @@ Read anonymised data into data frame
     df <- read.csv("./data/mergedDf.csv")
 ```
 
-
 Remove rows that relate to information that is from universities that were not part of the study (or where there is insufficient evidence to identify the university)
 
 ```{r echo=FALSE}
@@ -332,6 +331,6 @@ The cleaned df is written to a CSV for later analysis
 
 ```{r}
 	#row.names=FALSE stops that column from being written to the CSV
-	write.csv(df, "../data/mergedDfCleaned.csv", row.names=FALSE)
+	write.csv(df, "./data/mergedDfCleaned.csv", row.names=FALSE)
 
 ```

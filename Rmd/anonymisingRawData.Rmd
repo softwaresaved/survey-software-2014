@@ -22,7 +22,6 @@ Set the working directory
     if (!is.null(WD)) setwd(WD)
     rm(WD)
 ```
-
 Read all data into dataframes
 
 ```{r}
