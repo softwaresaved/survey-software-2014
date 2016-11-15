@@ -339,6 +339,10 @@ And now to visualise the repartition of our sample within the Seniority variable
 ### Training software per Seniority 
 ![](analysis-Survey_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
+
+
+
+
 ## Gender
 
 
@@ -387,3 +391,7 @@ And now to visualise the repartition of our sample within the Seniority variable
 ### Training software per Operating System
 
 ![](analysis-Survey_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+
+### Developing software and Training
+
+![](analysis-Survey_files/figure-html/unnamed-chunk-44-1.png)<!-- -->

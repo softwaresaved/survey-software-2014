@@ -481,6 +481,10 @@ sumQ  <- crossTabFreq(dfYES, 'Q.5.Seniority', 'Q.9.Training.Software.clean')
 facetPlot(sumQ, facetVar='Q.5.Seniority', xVar='Q.9.Training.Software.clean')
 ```
 
+
+
+
+
 ## Gender
 
 ```{r fig.width=20, fig.height=10, echo=FALSE}
@@ -541,4 +545,10 @@ facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.8.Developing.Software')
 ```{r fig.width=20, fig.height=10, echo=FALSE}
 sumQ  <- crossTabFreq(dfYES, 'E.4.OS.clean', 'Q.9.Training.Software.clean') 
 facetPlot(sumQ, facetVar='E.4.OS.clean', xVar='Q.9.Training.Software.clean')
+```
 
+### Developing software and Training
+
+```{r fig.width=20, fig.height=10, echo=FALSE}
+sumQ <- crossTabFreq(dfYES, 'Q.8.Developing.Software', 'Q.9.Training.Software.clean')
+facetPlot(sumQ, facetVar = 'Q.8.Developing.Software', 'Q.9.Training.Software.clean')
