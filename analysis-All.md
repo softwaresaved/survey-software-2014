@@ -459,6 +459,6 @@ And now to visualise the repartition of our sample within the Seniority variable
 
 ![](analysis-All_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
-### Training software per Operating System
+### Developing software and Training
 
 ![](analysis-All_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
